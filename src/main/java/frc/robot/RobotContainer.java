@@ -28,7 +28,7 @@ public class RobotContainer {
 
     public RobotContainer() {
 
-        cannon = new Cannon(0);
+        cannon = new Cannon();
 
         swerveSubsystem.setDefaultCommand(new SwerveCommand(
             swerveSubsystem,

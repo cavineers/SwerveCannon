@@ -13,6 +13,10 @@ public final class Constants {
         public static final double kBalancingControlBackwardsPowerMultiplier = 6.5;
     }
 
+    public static final class PnuematicsConstants {
+        public static final int kCannonSolenoid1 = 0;
+    }
+
     public static final class ModuleConstants {
         public static final double kWheelDiameterMeters = Units.inchesToMeters(4); //TBD
         public static final double kDriveMotorGearRatio = 1 / 6.67; //TBD
