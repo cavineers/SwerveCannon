@@ -13,6 +13,10 @@ public final class Constants {
         public static final double kBalancingControlBackwardsPowerMultiplier = 6.5;
     }
 
+    public static final class AngleControl {
+        public static final int angleControlMotor = 1;
+    }
+
     public static final class PnuematicsConstants {
         public static final int kCannonSolenoid1 = 0;
     }
