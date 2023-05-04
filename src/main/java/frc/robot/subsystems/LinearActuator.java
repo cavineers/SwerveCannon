@@ -23,9 +23,11 @@ public class LinearActuator extends SubsystemBase {
 
     //Motor Settings
     public LinearActuator() {
+
         angleControlMotor = new CANSparkMax(Constants.AngleControl.angleControlMotor, MotorType.kBrushless);
 
         angleControlMotorState = AngleControlMotorState.OFF;
+
 
         this.angleControlMotor.setIdleMode(IdleMode.kBrake);
 
@@ -35,9 +37,29 @@ public class LinearActuator extends SubsystemBase {
     }
 
     //Changing Motor States
-    // public void setAngleControlMotorState(angleControlMotorState state) {
+    public void setAngleControlMotorState(angleControlMotorState state) {
 
-    // }
+        this.angleControlMotorState = state;
+
+        switch(state) {
+            
+            case ON:
+                    this.angleControlMotor.set(Constants.AngleControl.angleControlMotorSpeedUp);
+                break;
+            
+            case OFF:
+                this.angleControlMotor.set(0);
+                break;
+
+            case REVERSED:
+                this.angleControlMotor.set(Constants.AnlgeControl.angleControlMotorSpeedDown);
+                break;
+
+            default:
+                this.setAngleControlMotorState(angleControlMotorState.OFF);
+        }
+
+    }
 
     //Gets Motor Position
     public double getAngleControlMotorPosition() {

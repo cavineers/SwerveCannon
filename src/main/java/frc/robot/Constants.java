@@ -15,6 +15,10 @@ public final class Constants {
 
     public static final class AngleControl {
         public static final int angleControlMotor = 1;
+        public static final double angleControlMotorSpeedUp = 0.1; //TBD
+        public static final double angleControlMotorSpeedDown = -0.1; //TBD
+        public static final double angleControlMotorMaxRot = 10; //TBD
+        public static final double angleControlMotorMinRot = 0;
     }
 
     public static final class PnuematicsConstants {
