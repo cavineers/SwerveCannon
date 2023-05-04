@@ -10,9 +10,11 @@ public class LowerCannon extends CommandBase {
     
     private boolean isDone = false;
     private double m_timestamp;
+    private LinearActuator linearActuator;
 
-    public LowerCannon() {
-        this.addRequirements(Robot.linearActuator);
+    public LowerCannon(LinearActuator linearActuator) {
+        this.linearActuator = linearActuator;
+        this.addRequirements(linearActuator);
     }
 
     // Set Motor State to ON / OFF
@@ -24,16 +26,16 @@ public class LowerCannon extends CommandBase {
     @Override
     public void execute() {
         // Raises cannon
-        if (Robot.linearActuator.getLinearActuatorMotorPosition() >= Constants.LinearActuator.linearActuatorMotorMinRot) {
-            Robot.linearActuator.setLinearActuatorMotorState(LinearActuator.LinearActuatorMotorState.REVERSED);
+        if (linearActuator.getLinearActuatorMotorPosition() >= Constants.LinearActuator.linearActuatorMotorMinRot) {
+            linearActuator.setLinearActuatorMotorState(LinearActuator.LinearActuatorMotorState.REVERSED);
         } else {
-            Robot.linearActuator.setLinearActuatorMotorState(LinearActuator.LinearActuatorMotorState.OFF);
+            linearActuator.setLinearActuatorMotorState(LinearActuator.LinearActuatorMotorState.OFF);
         }
     }   
 
     @Override
     public void end(boolean interrupted) {
-        Robot.linearActuator.setLinearActuatorMotorState(LinearActuator.LinearActuatorMotorState.OFF);
+        linearActuator.setLinearActuatorMotorState(LinearActuator.LinearActuatorMotorState.OFF);
     }
 
     @Override

@@ -19,8 +19,9 @@ public class RobotContainer {
 
    
     private final SwerveDriveSubsystem swerveSubsystem = new SwerveDriveSubsystem();
-    private final LinearActuator linearActuator = new LinearActuator();
+    private final LinearActuator linearActuator;
     private final Cannon cannon;
+
     public Command m_balance;
     public Command raiseCannon;
     public Command lowerCannon;
@@ -36,9 +37,10 @@ public class RobotContainer {
     public RobotContainer() {
 
         cannon = new Cannon();
+        linearActuator = new LinearActuator();
 
-        raiseCannon = new RaiseCannon();
-        lowerCannon = new LowerCannon();
+        raiseCannon = new RaiseCannon(linearActuator);
+        lowerCannon = new LowerCannon(linearActuator);
 
         swerveSubsystem.setDefaultCommand(new SwerveCommand(
             swerveSubsystem,
