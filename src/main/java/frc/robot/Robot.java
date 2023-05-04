@@ -18,14 +18,8 @@ public class Robot extends TimedRobot {
 
   public static RobotContainer m_robotContainer;
   
-  // Subsystems
-  public static SwerveDriveSubsystem m_swerveDrive;
-  public static LinearActuator linearActuator;
-
-
   public Robot() {
-    
-    linearActuator = new LinearActuator();
+  
   }
   /**
    * This function is run when the robot is first started up and should be used for any
