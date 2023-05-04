@@ -13,17 +13,11 @@ public class Cannon extends SubsystemBase{
 
     public Cannon() {
         this.sol = new Solenoid(PneumaticsModuleType.REVPH, PnuematicsConstants.kCannonSolenoid1);
-        compressor = new Compressor(PnuematicsConstants.kCannonCANID, PneumaticsModuleType.REVPH);
+        // compressor = new Compressor(PnuematicsConstants.kCannonCANID, PneumaticsModuleType.REVPH);
     }
 
     public void toggle() {
         this.sol.toggle();
     }
-
-    public void startCompressor() {
-        compressor.enableDigital();
-    }
-
-    
 
 }

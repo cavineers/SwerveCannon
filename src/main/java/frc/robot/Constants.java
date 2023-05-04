@@ -6,19 +6,16 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 
 public final class Constants {
 
-    public static final class BalanceConstants {
-        public static final double kBalancingControlGoalDegrees = 0;
-        public static final double kBalancingControlTresholdDegrees = 1;
-        public static final double kBalancingControlDriveP = 0.045; // P (Proportional) constant of a PID loop
-        public static final double kBalancingControlBackwardsPowerMultiplier = 6.5;
-    }
-
     public static final class LinearActuator {
         public static final int linearActuatorMotor = 1;
         public static final double linearActuatorMotorSpeedUp = 0.1; //TBD
         public static final double linearActuatorMotorSpeedDown = -0.1; //TBD
         public static final double linearActuatorMotorMaxRot = 50; //TBD
         public static final double linearActuatorMotorMinRot = 0;
+    }
+
+    public static class PWM {
+        public static final int kStripLEDPort = 0;
     }
 
     public static final class PnuematicsConstants {

@@ -13,14 +13,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Cannon;
 import frc.robot.subsystems.LinearActuator;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.subsystems.Strip;
 
 
 public class RobotContainer {
 
    
     private final SwerveDriveSubsystem swerveSubsystem = new SwerveDriveSubsystem();
-    private final LinearActuator linearActuator;
+    // private final LinearActuator linearActuator;
     private final Cannon cannon;
+    private final Strip strip;
 
     public Command m_balance;
     public Command raiseCannon;
@@ -37,10 +39,11 @@ public class RobotContainer {
     public RobotContainer() {
 
         cannon = new Cannon();
-        linearActuator = new LinearActuator();
+        // linearActuator = new LinearActuator();
+        strip = new Strip();
 
-        raiseCannon = new RaiseCannon(linearActuator);
-        lowerCannon = new LowerCannon(linearActuator);
+        // raiseCannon = new RaiseCannon(linearActuator);
+        // lowerCannon = new LowerCannon(linearActuator);
 
         swerveSubsystem.setDefaultCommand(new SwerveCommand(
             swerveSubsystem,
@@ -67,7 +70,7 @@ public class RobotContainer {
         buttonA.onTrue(new InstantCommand(){
             @Override
             public void initialize() {
-                cannon.startCompressor();
+                strip.setStripState(Strip.stripLEDState.OCEANCOLOREDRAINBOW);
             }
         });
 
