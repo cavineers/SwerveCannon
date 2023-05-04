@@ -4,11 +4,14 @@ import frc.robot.Constants.OIConstants;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.LowerCannon;
+import frc.robot.commands.RaiseCannon;
 import frc.robot.commands.SwerveCommand;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Cannon;
+import frc.robot.subsystems.LinearActuator;
 import edu.wpi.first.wpilibj.XboxController;
 
 
@@ -16,10 +19,15 @@ public class RobotContainer {
 
    
     private final SwerveDriveSubsystem swerveSubsystem = new SwerveDriveSubsystem();
+    private final LinearActuator linearActuator = new LinearActuator();
     private final Cannon cannon;
     public Command m_balance;
+    public Command raiseCannon;
+    public Command lowerCannon;
 
     public final XboxController xbox = new XboxController(0);
+    public JoystickButton buttonA = new JoystickButton(xbox, 1);
+    public JoystickButton buttonB = new JoystickButton(xbox, 2);
     public JoystickButton buttonX = new JoystickButton(xbox, 3);
     public JoystickButton buttonY = new JoystickButton(xbox, 4);
     public JoystickButton l_bump = new JoystickButton(xbox, 5);
@@ -28,6 +36,9 @@ public class RobotContainer {
     public RobotContainer() {
 
         cannon = new Cannon();
+
+        raiseCannon = new RaiseCannon();
+        lowerCannon = new LowerCannon();
 
         swerveSubsystem.setDefaultCommand(new SwerveCommand(
             swerveSubsystem,
@@ -43,7 +54,7 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         
-        buttonX.onTrue(new InstantCommand(){
+        buttonB.onTrue(new InstantCommand(){
             @Override
             public void initialize() {
                 if(l_bump.getAsBoolean()&&r_bump.getAsBoolean()){
@@ -52,11 +63,24 @@ public class RobotContainer {
             }
         });
 
-        buttonY.onTrue(new InstantCommand(){
+        buttonA.onTrue(new InstantCommand(){
             @Override
             public void initialize() {
                 cannon.startCompressor();
             }
+        });
+
+        this.buttonY.onTrue(raiseCannon);
+        this.buttonY.onFalse(new InstantCommand() {
+          public void initialize() {
+            raiseCannon.cancel();
+          }
+        });
+        this.buttonX.onTrue(lowerCannon);
+        this.buttonX.onFalse(new InstantCommand() {
+          public void initialize() {
+            lowerCannon.cancel();
+          }
         });
 
     }

@@ -17,7 +17,7 @@ public final class Constants {
         public static final int linearActuatorMotor = 1;
         public static final double linearActuatorMotorSpeedUp = 0.1; //TBD
         public static final double linearActuatorMotorSpeedDown = -0.1; //TBD
-        public static final double linearActuatorMotorMaxRot = 10; //TBD
+        public static final double linearActuatorMotorMaxRot = 50; //TBD
         public static final double linearActuatorMotorMinRot = 0;
     }
 
