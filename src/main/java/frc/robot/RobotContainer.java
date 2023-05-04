@@ -51,7 +51,6 @@ public class RobotContainer {
 
         configureButtonBindings();
        
-
     };
 
     private void configureButtonBindings() {
@@ -72,18 +71,20 @@ public class RobotContainer {
             }
         });
 
-        this.buttonY.onTrue(raiseCannon);
-        this.buttonY.onFalse(new InstantCommand() {
-          public void initialize() {
-            raiseCannon.cancel();
-          }
-        });
-        this.buttonX.onTrue(lowerCannon);
-        this.buttonX.onFalse(new InstantCommand() {
-          public void initialize() {
-            lowerCannon.cancel();
+        buttonY.onTrue(raiseCannon);
+        buttonY.onFalse(new InstantCommand() {
+            @Override
+            public void initialize() {
+                raiseCannon.cancel();
           }
         });
 
+        buttonX.onTrue(lowerCannon);
+        buttonX.onFalse(new InstantCommand() {
+            @Override
+            public void initialize() {
+                lowerCannon.cancel();
+          }
+        });
     }
 }
