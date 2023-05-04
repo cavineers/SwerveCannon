@@ -19,7 +19,7 @@ public class LinearActuator extends SubsystemBase {
     }
 
     //Set Initial Motor State
-    public AngleControlMotorState angleControlMotorState;
+    public static AngleControlMotorState angleControlMotorState = AngleControlMotorState.OFF;
 
     //Motor Settings
     public LinearActuator() {
@@ -37,7 +37,7 @@ public class LinearActuator extends SubsystemBase {
     }
 
     //Changing Motor States
-    public void setAngleControlMotorState(angleControlMotorState state) {
+    public void setAngleControlMotorState(AngleControlMotorState state) {
 
         this.angleControlMotorState = state;
 
@@ -52,7 +52,7 @@ public class LinearActuator extends SubsystemBase {
                 break;
 
             case REVERSED:
-                this.angleControlMotor.set(Constants.AnlgeControl.angleControlMotorSpeedDown);
+                this.angleControlMotor.set(Constants.AngleControl.angleControlMotorSpeedDown);
                 break;
 
             default:
