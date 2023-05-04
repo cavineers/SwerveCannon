@@ -4,8 +4,9 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class LinearActuator extends subsystems {
+public class LinearActuator extends SubsystemBase {
     
     //Initalize Motor
     public CANSparkMax angleControlMotor;
@@ -18,14 +19,13 @@ public class LinearActuator extends subsystems {
     }
 
     //Set Initial Motor State
-    public AngleControlMotorState angleControlMotor;
+    public AngleControlMotorState angleControlMotorState;
 
     //Motor Settings
     public LinearActuator() {
         angleControlMotor = new CANSparkMax(Constants.AngleControl.angleControlMotor, MotorType.kBrushless);
 
-        angleControlMotor = AngleControlMotorState.OFF
-
+        angleControlMotorState = AngleControlMotorState.OFF;
 
         this.angleControlMotor.setIdleMode(IdleMode.kBrake);
 
@@ -35,7 +35,9 @@ public class LinearActuator extends subsystems {
     }
 
     //Changing Motor States
-    public void setAngleControlMotorState(angleControlMotorState, State)
+    // public void setAngleControlMotorState(angleControlMotorState state) {
+
+    // }
 
     //Gets Motor Position
     public double getAngleControlMotorPosition() {
@@ -47,7 +49,7 @@ public class LinearActuator extends subsystems {
         this.angleControlMotor.getEncoder().setPosition(position);
     }
 
-    public angleControlMotor getAngleControlMotorState() {
-        return this.angleControlMotorState
+    public AngleControlMotorState getAngleControlMotorState() {
+        return this.angleControlMotorState;
     }
 }
