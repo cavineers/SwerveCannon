@@ -9,69 +9,64 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class LinearActuator extends SubsystemBase {
     
     //Initalize Motor
-    public CANSparkMax angleControlMotor;
+    public CANSparkMax linearActuatorMotor = new CANSparkMax(Constants.LinearActuator.linearActuatorMotor, MotorType.kBrushless);;
 
     //List States
-    public enum AngleControlMotorState {
+    public enum LinearActuatorMotorState {
         ON,
         OFF,
         REVERSED
     }
 
     //Set Initial Motor State
-    public AngleControlMotorState angleControlMotorState;
+    public LinearActuatorMotorState linearActuatorMotorState = LinearActuatorMotorState.OFF;
 
     //Motor Settings
     public LinearActuator() {
 
-        angleControlMotor = new CANSparkMax(Constants.AngleControl.angleControlMotor, MotorType.kBrushless);
+        this.linearActuatorMotor.setIdleMode(IdleMode.kBrake);
 
-        angleControlMotorState = AngleControlMotorState.OFF;
+        this.linearActuatorMotor.setInverted(false);
 
-
-        this.angleControlMotor.setIdleMode(IdleMode.kBrake);
-
-        this.angleControlMotor.setInverted(false);
-
-        this.angleControlMotor.setSmartCurrentLimit(51);
+        this.linearActuatorMotor.setSmartCurrentLimit(51);
     }
 
     //Changing Motor States
-    public void setAngleControlMotorState(angleControlMotorState state) {
+    public void setLinearActuatorMotorState(LinearActuatorMotorState state) {
 
-        this.angleControlMotorState = state;
+        this.linearActuatorMotorState = state;
 
         switch(state) {
             
             case ON:
-                    this.angleControlMotor.set(Constants.AngleControl.angleControlMotorSpeedUp);
+                    this.linearActuatorMotor.set(Constants.LinearActuator.linearActuatorMotorSpeedUp);
                 break;
             
             case OFF:
-                this.angleControlMotor.set(0);
+                this.linearActuatorMotor.set(0);
                 break;
 
             case REVERSED:
-                this.angleControlMotor.set(Constants.AnlgeControl.angleControlMotorSpeedDown);
+                this.linearActuatorMotor.set(Constants.LinearActuator.linearActuatorMotorSpeedDown);
                 break;
 
             default:
-                this.setAngleControlMotorState(angleControlMotorState.OFF);
+                this.setLinearActuatorMotorState(linearActuatorMotorState.OFF);
         }
 
     }
 
     //Gets Motor Position
-    public double getAngleControlMotorPosition() {
-        return this.angleControlMotor.getEncoder().getPosition();
+    public double getLinearActuatorMotorPosition() {
+        return this.linearActuatorMotor.getEncoder().getPosition();
     }
 
     //Sets Encoder Value 
-    public void setAngleControlMotorPosition(double position) {
-        this.angleControlMotor.getEncoder().setPosition(position);
+    public void setLinearActuatorMotorPosition(double position) {
+        this.linearActuatorMotor.getEncoder().setPosition(position);
     }
 
-    public AngleControlMotorState getAngleControlMotorState() {
-        return this.angleControlMotorState;
+    public LinearActuatorMotorState getAngleControlMotorState() {
+        return this.linearActuatorMotorState;
     }
 }

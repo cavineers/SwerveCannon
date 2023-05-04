@@ -13,12 +13,12 @@ public final class Constants {
         public static final double kBalancingControlBackwardsPowerMultiplier = 6.5;
     }
 
-    public static final class AngleControl {
-        public static final int angleControlMotor = 1;
-        public static final double angleControlMotorSpeedUp = 0.1; //TBD
-        public static final double angleControlMotorSpeedDown = -0.1; //TBD
-        public static final double angleControlMotorMaxRot = 10; //TBD
-        public static final double angleControlMotorMinRot = 0;
+    public static final class LinearActuator {
+        public static final int linearActuatorMotor = 1;
+        public static final double linearActuatorMotorSpeedUp = 0.1; //TBD
+        public static final double linearActuatorMotorSpeedDown = -0.1; //TBD
+        public static final double linearActuatorMotorMaxRot = 10; //TBD
+        public static final double linearActuatorMotorMinRot = 0;
     }
 
     public static final class PnuematicsConstants {
