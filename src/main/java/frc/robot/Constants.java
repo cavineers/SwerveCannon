@@ -12,6 +12,7 @@ public final class Constants {
         public static final double linearActuatorMotorSpeedDown = -0.1; //TBD
         public static final double linearActuatorMotorMaxRot = 50; //TBD
         public static final double linearActuatorMotorMinRot = 0;
+        public static final double linearActuatorMotorGearRat = 10; //TBD
     }
 
     public static class PWM {
