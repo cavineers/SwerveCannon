@@ -11,6 +11,7 @@ import frc.robot.subsystems.LinearActuator;
 public class ShootAngle extends CommandBase {
     
     private double angle;
+    private double rotations;
     private boolean isDone = false;
     private double m_timestamp;
     private LinearActuator linearActuator;
@@ -24,6 +25,8 @@ public class ShootAngle extends CommandBase {
          */
 
         angle = SmartDashboard.getNumber("Shooting angle", 0);
+        //rotations = angle 
+        // Insert math here
 
         this.linearActuator = linearActuator;
         this.addRequirements(linearActuator);
