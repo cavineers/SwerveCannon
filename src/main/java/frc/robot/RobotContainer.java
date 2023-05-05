@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.LowerCannon;
 import frc.robot.commands.RaiseCannon;
 import frc.robot.commands.HomeCannon;
+import frc.robot.commands.ShootAngle;
 import frc.robot.commands.SwerveCommand;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -29,6 +30,7 @@ public class RobotContainer {
     public Command raiseCannon;
     public Command lowerCannon;
     public Command HomeCannon;
+    public Command ShootAngle;
 
     public final XboxController xbox = new XboxController(0);
     public JoystickButton buttonA = new JoystickButton(xbox, 1);
