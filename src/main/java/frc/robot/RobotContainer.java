@@ -20,7 +20,7 @@ public class RobotContainer {
 
    
     private final SwerveDriveSubsystem swerveSubsystem = new SwerveDriveSubsystem();
-    // private final LinearActuator linearActuator;
+    private final LinearActuator linearActuator;
     private final Cannon cannon;
     private final Strip strip;
 
@@ -39,11 +39,11 @@ public class RobotContainer {
     public RobotContainer() {
 
         cannon = new Cannon();
-        // linearActuator = new LinearActuator();
+        linearActuator = new LinearActuator();
         strip = new Strip();
 
-        // raiseCannon = new RaiseCannon(linearActuator);
-        // lowerCannon = new LowerCannon(linearActuator);
+        raiseCannon = new RaiseCannon(linearActuator);
+        lowerCannon = new LowerCannon(linearActuator);
 
         swerveSubsystem.setDefaultCommand(new SwerveCommand(
             swerveSubsystem,

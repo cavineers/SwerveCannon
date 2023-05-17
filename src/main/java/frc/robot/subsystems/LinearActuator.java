@@ -7,6 +7,12 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LinearActuator extends SubsystemBase {
+
+    public void periodic() {
+
+        SmartDashboard.putNumber("linearActuatorRot", getLinearActuatorMotorPosition());
+
+    }
     
     //Initalize Motor
     public CANSparkMax linearActuatorMotor = new CANSparkMax(Constants.LinearActuator.linearActuatorMotor, MotorType.kBrushless);;
