@@ -44,6 +44,6 @@ public class RaiseCannon extends CommandBase {
         if (Timer.getFPGATimestamp() - this.m_timestamp >= 0 && Robot.m_robotContainer.xbox.getRawButton(0)) {
             this.isDone = true;
         }
-        return this.isDone();
+        return this.isDone;
     }
 }
