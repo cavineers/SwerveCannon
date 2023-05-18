@@ -71,7 +71,7 @@ public class RobotContainer {
             }
         });
 
-        buttonX.onTrue(new InstantCommand(){
+        buttonA.onTrue(new InstantCommand(){
             @Override
             public void initialize() {
                 strip.setStripState(Strip.stripLEDState.OCEANCOLOREDRAINBOW);
@@ -86,8 +86,8 @@ public class RobotContainer {
           }
         });
 
-        buttonA.onTrue(lowerCannon);
-        buttonA.onFalse(new InstantCommand() {
+        buttonX.onTrue(lowerCannon);
+        buttonX.onFalse(new InstantCommand() {
             @Override
             public void initialize() {
                 lowerCannon.cancel();
