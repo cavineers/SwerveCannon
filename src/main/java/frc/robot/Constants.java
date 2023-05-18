@@ -8,9 +8,9 @@ public final class Constants {
 
     public static final class LinearActuator {
         public static final int linearActuatorMotor = 1;
-        public static final double linearActuatorMotorSpeedUp = 0.1; //TBD
-        public static final double linearActuatorMotorSpeedDown = -0.1; //TBD
-        public static final double linearActuatorMotorMaxRot = 50; //TBD
+        public static final double linearActuatorMotorSpeedUp = 0.3; //TBD
+        public static final double linearActuatorMotorSpeedDown = -0.3; //TBD
+        public static final double linearActuatorMotorMaxRot = 5.15;
         public static final double linearActuatorMotorMinRot = 0;
         public static final double linearActuatorMotorGearRat = 10; //TBD
     }
@@ -20,7 +20,7 @@ public final class Constants {
     }
 
     public static final class PnuematicsConstants {
-        public static final int kCannonCANID = 1;
+        public static final int kCannonCANID = 9; //TBD
         public static final int kCannonSolenoid1 = 0;
     }
 
@@ -42,7 +42,7 @@ public final class Constants {
         
 
         public static final int kFrontLeftDriveCanID = 3;
-        public static final int kBackLeftDriveCanID = 1;
+        public static final int kBackLeftDriveCanID = 10; //Replace with 1
         public static final int kFrontRightDriveCanID = 5;
         public static final int kBackRightDriveCanID = 7;
 
