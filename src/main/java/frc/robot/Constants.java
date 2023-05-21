@@ -12,6 +12,7 @@ public final class Constants {
         public static final double linearActuatorMotorSpeedDown = -0.3; //TBD
         public static final double linearActuatorMotorMaxRot = 5.15;
         public static final double linearActuatorMotorMinRot = 0;
+        public static final double linearActuatorMotorEaseFactor = 0.01; //TBD
         public static final double linearActuatorMotorGearRat = 10; //TBD
     }
 
@@ -42,7 +43,7 @@ public final class Constants {
         
 
         public static final int kFrontLeftDriveCanID = 3;
-        public static final int kBackLeftDriveCanID = 5; //Replace with 1
+        public static final int kBackLeftDriveCanID = 5;
         public static final int kFrontRightDriveCanID = 8;
         public static final int kBackRightDriveCanID = 6;
 

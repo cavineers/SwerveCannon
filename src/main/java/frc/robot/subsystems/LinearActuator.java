@@ -12,6 +12,7 @@ public class LinearActuator extends SubsystemBase {
     public void periodic() {
 
         SmartDashboard.putNumber("linearActuatorRot", getLinearActuatorMotorPosition());
+        SmartDashboard.putNumber("linearActuatorMotorSpeed", getLinearActuatorMotorSpeed());
 
     }
     
@@ -46,7 +47,13 @@ public class LinearActuator extends SubsystemBase {
         switch(state) {
             
             case ON:
+                if (this.linearActuatorMotor.get() < Constants.LinearActuator.linearActuatorMotorSpeedUp) {
+                    this.linearActuatorMotor.set(this.linearActuatorMotor.get() + Constants.LinearActuator.linearActuatorMotorEaseFactor);
+                }
+                
+                else {
                     this.linearActuatorMotor.set(Constants.LinearActuator.linearActuatorMotorSpeedUp);
+                }
                 break;
             
             case OFF:
@@ -54,7 +61,13 @@ public class LinearActuator extends SubsystemBase {
                 break;
 
             case REVERSED:
-                this.linearActuatorMotor.set(Constants.LinearActuator.linearActuatorMotorSpeedDown);
+                if (this.linearActuatorMotor.get() > Constants.LinearActuator.linearActuatorMotorSpeedDown) {
+                    this.linearActuatorMotor.set(this.linearActuatorMotor.get() - Constants.LinearActuator.linearActuatorMotorEaseFactor);
+                } 
+                
+                else {
+                    this.linearActuatorMotor.set(Constants.LinearActuator.linearActuatorMotorSpeedDown);
+                }
                 break;
 
             default:
@@ -66,6 +79,11 @@ public class LinearActuator extends SubsystemBase {
     //Gets Motor Position
     public double getLinearActuatorMotorPosition() {
         return this.linearActuatorMotor.getEncoder().getPosition();
+    }
+    
+    //Gets Motor Speed
+    public double getLinearActuatorMotorSpeed() {
+        return this.linearActuatorMotor.get();
     }
 
     //Sets Encoder Value 
