@@ -14,17 +14,17 @@ public class SwerveCommand extends CommandBase {
 
     private final SwerveDriveSubsystem swerveSubsystem;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
-    private final Supplier<Boolean> fieldOrientedFunction;
+    private final Supplier<Boolean> turboFunction;
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
 
     public SwerveCommand(SwerveDriveSubsystem swerveSubsystem,
             Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction,
-            Supplier<Boolean> fieldOrientedFunction) {
+            Supplier<Boolean> turboFunction) {
         this.swerveSubsystem = swerveSubsystem;
         this.xSpdFunction = xSpdFunction;
         this.ySpdFunction = ySpdFunction;
         this.turningSpdFunction = turningSpdFunction;
-        this.fieldOrientedFunction = fieldOrientedFunction;
+        this.turboFunction = turboFunction;
         this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         this.yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         this.turningLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
@@ -55,17 +55,20 @@ public class SwerveCommand extends CommandBase {
 
         // Construct desired chassis speeds
         ChassisSpeeds chassisSpeeds;
-        if (fieldOrientedFunction.get()) {
-            // Relative to robot
-            // chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
-            
-            //Relative to field
-            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                    xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
+        if (turboFunction.get()){
+            xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMinSpeedMetersPerSecond;
+            ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMinSpeedMetersPerSecond;
         } else {
-            // Relative to robot
-            chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
+            xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+            ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
         }
+
+        //Relative to field
+        chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+            xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
+
+        // // Relative to robot
+        // chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
         
         // Convert chassis speeds to individual module states
         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
