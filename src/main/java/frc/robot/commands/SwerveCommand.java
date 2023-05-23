@@ -63,12 +63,12 @@ public class SwerveCommand extends CommandBase {
             ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
         }
 
-        //Relative to field
-        chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-            xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
+        // //Relative to field
+        // chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+        //     xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
 
         // // Relative to robot
-        // chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
+        chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
         
         // Convert chassis speeds to individual module states
         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
