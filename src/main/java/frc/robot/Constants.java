@@ -8,9 +8,9 @@ public final class Constants {
 
     public static final class LinearActuator {
         public static final int linearActuatorMotor = 1;
-        public static final double linearActuatorMotorSpeedUp = 0.5; //TBD
-        public static final double linearActuatorMotorSpeedDown = -0.5; //TBD
-        public static final double linearActuatorMotorMaxRot = 5.0;
+        public static final double linearActuatorMotorSpeedUp = 0.4; //TBD
+        public static final double linearActuatorMotorSpeedDown = -0.4; //TBD
+        public static final double linearActuatorMotorMaxRot = 4.9;
         public static final double linearActuatorMotorMinRot = 0;
         public static final double linearActuatorMotorEaseFactor = 0.02; //TBD
         public static final double linearActuatorMotorGearRat = 10; //TBD
