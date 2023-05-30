@@ -54,7 +54,7 @@ public class RobotContainer {
             () -> -xbox.getRawAxis(OIConstants.kDriverYAxis),
             () -> xbox.getRawAxis(OIConstants.kDriverXAxis),
             () -> xbox.getRawAxis(OIConstants.kDriverRotAxis),
-            () -> !xbox.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
+            () -> !xbox.getRawButton(OIConstants.kDriverTurboButton)));
 
         configureButtonBindings();
        
