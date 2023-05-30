@@ -51,9 +51,9 @@ public class RobotContainer {
 
         swerveSubsystem.setDefaultCommand(new SwerveCommand(
             swerveSubsystem,
-            () -> -xbox.getRawAxis(OIConstants.kDriverYAxis),
-            () -> xbox.getRawAxis(OIConstants.kDriverXAxis),
-            () -> xbox.getRawAxis(OIConstants.kDriverRotAxis),
+            () -> -Math.pow(xbox.getRawAxis(OIConstants.kDriverYAxis), 2),
+            () -> Math.pow(xbox.getRawAxis(OIConstants.kDriverXAxis), 2),
+            () -> Math.pow(xbox.getRawAxis(OIConstants.kDriverRotAxis), 2),
             () -> !xbox.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
         configureButtonBindings();
