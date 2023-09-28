@@ -20,7 +20,10 @@ public final class Constants {
     }
 
     public static final class PnuematicsConstants {
-        public static final int kCannonCANID = 9; //TBD
+        public static final int kMinPressure = 0;
+        public static final int kMaxPressure = 20;
+
+        public static final int kCannonCANID = 1; //TBD
         public static final int kCannonSolenoid1 = 0;
     }
 
