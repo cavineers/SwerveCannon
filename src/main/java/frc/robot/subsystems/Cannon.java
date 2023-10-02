@@ -22,8 +22,12 @@ public class Cannon extends SubsystemBase{
 
     public Cannon() {
         this.sol = new Solenoid(PneumaticsModuleType.REVPH, PnuematicsConstants.kCannonSolenoid1);
+
+        // compressor = new Compressor(PneumaticsModuleType.REVPH,);
         pcm = new PneumaticsControlModule(PnuematicsConstants.kCannonCANID);
-        pcm.enableCompressorHybrid(PnuematicsConstants.kMinPressure, PnuematicsConstants.kMaxPressure);
+
+        // pcm.enableCompressorDigital();
+        pcm.enableCompressorAnalog(PnuematicsConstants.kMinPressure, PnuematicsConstants.kMaxPressure);
     }
 
     public boolean isEnabled(){
@@ -31,7 +35,7 @@ public class Cannon extends SubsystemBase{
     }
 
     public double getPressure(){
-        return pcm.getPressure(PnuematicsConstants.kCannonCANID);
+        return pcm.getPressure(PnuematicsConstants.kAnalogChannel);
     }
 
     public void toggle() {
