@@ -21,11 +21,10 @@ public class Cannon extends SubsystemBase{
         this.sol = new Solenoid(PneumaticsModuleType.REVPH, PnuematicsConstants.kCannonSolenoid1);
 
         compressor = new Compressor(PneumaticsModuleType.REVPH);
-
     }
 
     public void startHybrid(){
-        compressor.enableAnalog(PnuematicsConstants.kMinPressure, PnuematicsConstants.kMaxPressure);
+        compressor.enableHybrid(PnuematicsConstants.kMinPressure, PnuematicsConstants.kMaxPressure);
     }
 
     public void toggle() {
