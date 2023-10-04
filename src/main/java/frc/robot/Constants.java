@@ -7,7 +7,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 public final class Constants {
 
     public static final class LinearActuator {
-        public static final int linearActuatorMotor = 1;
+        public static final int linearActuatorMotor = 2;
         public static final double linearActuatorMotorSpeedUp = 0.4; //TBD
         public static final double linearActuatorMotorSpeedDown = -0.4; //TBD
         public static final double linearActuatorMotorMaxRot = 4.9;
@@ -48,7 +48,7 @@ public final class Constants {
         public static final int kBackRightDriveCanID = 6;
 
         public static final int kFrontLeftTurningCanID = 4;
-        public static final int kBackLeftTurningCanID = 2;
+        public static final int kBackLeftTurningCanID = 20;
         public static final int kFrontRightTurningCanID = 9;
         public static final int kBackRightTurningCanID = 7;
 
