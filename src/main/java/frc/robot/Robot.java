@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.LinearActuator;
 import frc.robot.subsystems.SwerveDriveSubsystem;
+import frc.robot.subsystems.Cannon;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -17,9 +18,10 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   public static RobotContainer m_robotContainer;
+  public Cannon cannon;
   
   public Robot() {
-  
+    cannon = new Cannon();
   }
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -67,6 +69,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    cannon.startHybrid();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
