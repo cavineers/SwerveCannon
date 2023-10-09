@@ -27,7 +27,7 @@ public class RaiseCannon extends CommandBase {
     @Override
     public void execute() {
         // Raises cannon
-        if (linearActuator.getLinearActuatorMotorPosition() <= Constants.LinearActuator.linearActuatorMotorMaxRot) {
+        if (linearActuator.getLinearActuatorMotorPosition() <= (Constants.LinearActuator.linearActuatorMotorMaxRot - Constants.LinearActuator.linearActuatorMotorEaseOutThreshold)) {
             linearActuator.setLinearActuatorMotorState(LinearActuator.LinearActuatorMotorState.ON);
         } else {
             linearActuator.setLinearActuatorMotorState(LinearActuator.LinearActuatorMotorState.OFF);

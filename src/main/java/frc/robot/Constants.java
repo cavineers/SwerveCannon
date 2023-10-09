@@ -8,10 +8,14 @@ public final class Constants {
 
     public static final class LinearActuator {
         public static final int linearActuatorMotor = 1;
-        public static final double linearActuatorMotorSpeedUp = 0.25; //TBD
-        public static final double linearActuatorMotorSpeedDown = -0.25; //TBD
-        public static final double linearActuatorMotorMaxRot = 5.1;
-        public static final double linearActuatorMotorMinRot = 0.025;
+        public static final double linearActuatorMotorSpeedUp = 0.5; //TBD
+        public static final double linearActuatorMotorSpeedDown = -0.5; //TBD
+        public static final double linearActuatorMotorMaxRot = 5.0;
+        public static final double linearActuatorMotorMinRot = 0;
+        public static final double linearActuatorMotorEaseFactor = 0.02; //Easing Increment added to speed //TBD
+        public static final double linearActuatorMotorEaseOutMultiplier = 3; //Higher Value = More responsive; Less smooth
+        public static final double linearActuatorMotorEaseOutThreshold = (linearActuatorMotorEaseOutMultiplier * linearActuatorMotorEaseFactor); //Minimum speed while easing before speed is set to 0
+     
         public static final double linearActuatorMotorGearRat = 10; //TBD
     }
 
@@ -20,7 +24,12 @@ public final class Constants {
     }
 
     public static final class PnuematicsConstants {
-        public static final int kCannonCANID = 9; //TBD
+        public static final int kMinPressure = 20;
+        public static final int kMaxPressure = 40;
+
+        public static final int kAnalogChannel = 0;
+
+        public static final int kCannonCANID = 14; //TBD
         public static final int kCannonSolenoid1 = 0;
     }
 
@@ -37,12 +46,12 @@ public final class Constants {
 
     public static final class DriveConstants {
 
-        public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
+        public static final double kPhysicalMaxSpeedMetersPerSecond = 2;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
         
 
         public static final int kFrontLeftDriveCanID = 3;
-        public static final int kBackLeftDriveCanID = 5; //Replace with 1
+        public static final int kBackLeftDriveCanID = 5;
         public static final int kFrontRightDriveCanID = 8;
         public static final int kBackRightDriveCanID = 6;
 
@@ -61,7 +70,8 @@ public final class Constants {
         public static final boolean kFrontRightDriveEncoderReversed = false;
         public static final boolean kBackRightDriveEncoderReversed = false;
 
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond;
+        public static final double kTeleDriveMinSpeedMetersPerSecond = 5/3;
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
         public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
@@ -84,7 +94,7 @@ public final class Constants {
         public static final int kDriverYAxis = 1;
         public static final int kDriverXAxis = 0;
         public static final int kDriverRotAxis = 4;
-        public static final int kDriverFieldOrientedButtonIdx = 1;
+        public static final int kDriverTurboButton = 9;
 
         public static final double kDeadband = 0.1;
     }
