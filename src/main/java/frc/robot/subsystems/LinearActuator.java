@@ -92,6 +92,9 @@ public class LinearActuator extends SubsystemBase {
             else {
                 this.linearActuatorMotor.set(Constants.LinearActuator.linearActuatorMotorSpeedUp);
             }
+
+            SmartDashboard.putString("State", "ON");
+
         }
 
         //OFF State
@@ -106,6 +109,9 @@ public class LinearActuator extends SubsystemBase {
             else {
                 this.linearActuatorMotor.set(0);
             }
+
+            SmartDashboard.putString("State", "OFF");
+            
         }
 
         //REVERSED State
@@ -118,6 +124,9 @@ public class LinearActuator extends SubsystemBase {
             else {
                 this.linearActuatorMotor.set(Constants.LinearActuator.linearActuatorMotorSpeedDown);
             }
+
+            SmartDashboard.putString("State", "REVERSED");
+
         }
 
         //SmartDashboard Displays
