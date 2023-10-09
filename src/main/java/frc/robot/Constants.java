@@ -8,11 +8,14 @@ public final class Constants {
 
     public static final class LinearActuator {
         public static final int linearActuatorMotor = 1;
-        public static final double linearActuatorMotorSpeedUp = 0.4; //TBD
-        public static final double linearActuatorMotorSpeedDown = -0.4; //TBD
-        public static final double linearActuatorMotorMaxRot = 4.9;
-        public static final double linearActuatorMotorMinRot = 0.0025;
-        public static final double linearActuatorMotorEaseFactor = 0.02; //TBD
+        public static final double linearActuatorMotorSpeedUp = 0.5; //TBD
+        public static final double linearActuatorMotorSpeedDown = -0.5; //TBD
+        public static final double linearActuatorMotorMaxRot = 5.0;
+        public static final double linearActuatorMotorMinRot = 0;
+        public static final double linearActuatorMotorEaseFactor = 0.02; //Easing Increment added to speed //TBD
+        public static final double linearActuatorMotorEaseOutMultiplier = 3; //Higher Value = More responsive; Less smooth
+        public static final double linearActuatorMotorEaseOutThreshold = (linearActuatorMotorEaseOutMultiplier * linearActuatorMotorEaseFactor); //Minimum speed while easing before speed is set to 0
+     
         public static final double linearActuatorMotorGearRat = 10; //TBD
     }
 

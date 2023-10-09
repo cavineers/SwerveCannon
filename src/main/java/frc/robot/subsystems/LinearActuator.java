@@ -1,20 +1,17 @@
 package frc.robot.subsystems;
 
+import java.util.concurrent.TimeoutException;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LinearActuator extends SubsystemBase {
 
-    public void periodic() {
-
-        SmartDashboard.putNumber("linearActuatorRot", getLinearActuatorMotorPosition());
-        SmartDashboard.putNumber("linearActuatorMotorSpeed", getLinearActuatorMotorSpeed());
-
-    }
     
     //Initalize Motor
     public CANSparkMax linearActuatorMotor = new CANSparkMax(Constants.LinearActuator.linearActuatorMotor, MotorType.kBrushless);;
@@ -47,31 +44,19 @@ public class LinearActuator extends SubsystemBase {
         switch(state) {
             
             case ON:
-                if (this.linearActuatorMotor.get() < Constants.LinearActuator.linearActuatorMotorSpeedUp) {
-                    this.linearActuatorMotor.set(this.linearActuatorMotor.get() + Constants.LinearActuator.linearActuatorMotorEaseFactor);
-                }
                 
-                else {
-                    this.linearActuatorMotor.set(Constants.LinearActuator.linearActuatorMotorSpeedUp);
-                }
                 break;
             
             case OFF:
-                this.linearActuatorMotor.set(0);
+                
                 break;
 
             case REVERSED:
-                if (this.linearActuatorMotor.get() > Constants.LinearActuator.linearActuatorMotorSpeedDown) {
-                    this.linearActuatorMotor.set(this.linearActuatorMotor.get() - Constants.LinearActuator.linearActuatorMotorEaseFactor);
-                } 
                 
-                else {
-                    this.linearActuatorMotor.set(Constants.LinearActuator.linearActuatorMotorSpeedDown);
-                }
                 break;
 
             default:
-                this.setLinearActuatorMotorState(linearActuatorMotorState.OFF);
+                this.setLinearActuatorMotorState(LinearActuatorMotorState.OFF);
         }
 
     }
@@ -94,4 +79,60 @@ public class LinearActuator extends SubsystemBase {
     public LinearActuatorMotorState getAngleControlMotorState() {
         return this.linearActuatorMotorState;
     }
+
+    public void periodic(){
+        
+        //ON State
+        if (this.linearActuatorMotorState == LinearActuatorMotorState.ON) {
+
+            if (this.linearActuatorMotor.get() < Constants.LinearActuator.linearActuatorMotorSpeedUp) {
+                this.linearActuatorMotor.set(this.linearActuatorMotor.get() + Constants.LinearActuator.linearActuatorMotorEaseFactor);
+            }
+            
+            else {
+                this.linearActuatorMotor.set(Constants.LinearActuator.linearActuatorMotorSpeedUp);
+            }
+
+            SmartDashboard.putString("State", "ON");
+
+        }
+
+        //OFF State
+        if (this.linearActuatorMotorState == LinearActuatorMotorState.OFF){
+
+            if (this.linearActuatorMotor.get() > Constants.LinearActuator.linearActuatorMotorEaseOutThreshold) {
+                this.linearActuatorMotor.set(this.linearActuatorMotor.get() - (Constants.LinearActuator.linearActuatorMotorEaseOutMultiplier * Constants.LinearActuator.linearActuatorMotorEaseFactor));
+            }
+            else if (this.linearActuatorMotor.get() < -(Constants.LinearActuator.linearActuatorMotorEaseOutThreshold)) {
+                this.linearActuatorMotor.set(this.linearActuatorMotor.get() + (Constants.LinearActuator.linearActuatorMotorEaseOutMultiplier * Constants.LinearActuator.linearActuatorMotorEaseFactor));
+            }
+            else {
+                this.linearActuatorMotor.set(0);
+            }
+
+            SmartDashboard.putString("State", "OFF");
+            
+        }
+
+        //REVERSED State
+        if (this.linearActuatorMotorState == LinearActuatorMotorState.REVERSED){
+            
+            if (this.linearActuatorMotor.get() > Constants.LinearActuator.linearActuatorMotorSpeedDown) {
+                this.linearActuatorMotor.set(this.linearActuatorMotor.get() - Constants.LinearActuator.linearActuatorMotorEaseFactor);
+            } 
+            
+            else {
+                this.linearActuatorMotor.set(Constants.LinearActuator.linearActuatorMotorSpeedDown);
+            }
+
+            SmartDashboard.putString("State", "REVERSED");
+
+        }
+
+        //SmartDashboard Displays
+        SmartDashboard.putNumber("linearActuatorRot", getLinearActuatorMotorPosition());
+        SmartDashboard.putNumber("linearActuatorMotorSpeed", getLinearActuatorMotorSpeed());
+
+    }
+
 }
