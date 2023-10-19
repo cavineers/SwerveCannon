@@ -11,6 +11,8 @@ import frc.robot.commands.ShootAngle;
 import frc.robot.commands.SwerveCommand;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SelectCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Cannon;
 import frc.robot.subsystems.LinearActuator;
@@ -41,6 +43,8 @@ public class RobotContainer {
     public JoystickButton l_bump = new JoystickButton(xbox, 5);
     public JoystickButton r_bump = new JoystickButton(xbox, 6);
 
+    private SequentialCommandGroup fireCannon;
+
     public RobotContainer(Cannon cannon) {
 
         this.cannon = cannon;
@@ -50,6 +54,23 @@ public class RobotContainer {
         raiseCannon = new RaiseCannon(linearActuator);
         lowerCannon = new LowerCannon(linearActuator);
 
+        this.fireCannon = new SequentialCommandGroup();
+
+        this.fireCannon.addCommands(
+            new InstantCommand(){
+                @Override
+                public void initialize() {
+                    cannon.barrel1();
+                }
+            },
+            new WaitCommand(1),
+            new InstantCommand(){
+                @Override
+                public void initialize() {
+                   cannon.barrel1(); 
+                }
+            }
+        );
         swerveSubsystem.setDefaultCommand(new SwerveCommand(
             swerveSubsystem,
             () -> -xbox.getRawAxis(OIConstants.kDriverYAxis),
@@ -63,14 +84,14 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         
+
+
         buttonB.onTrue(new InstantCommand(){
             @Override
             public void initialize() {
-               // if(l_bump.getAsBoolean()&&r_bump.getAsBoolean()){
-                    cannon.barrel1();
-                    new WaitCommand(1);
-                    cannon.barrel1();
-                //}
+                if(l_bump.getAsBoolean()&&r_bump.getAsBoolean()){
+                    
+                }
             }
         });
 
@@ -78,7 +99,7 @@ public class RobotContainer {
             @Override
             public void initialize() {
                 if(l_bump.getAsBoolean()&&r_bump.getAsBoolean()){
-                    cannon.barrel2();
+                    fireCannon.schedule();
                 }
             }
         });
