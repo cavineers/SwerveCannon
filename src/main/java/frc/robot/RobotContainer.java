@@ -44,6 +44,7 @@ public class RobotContainer {
     public JoystickButton r_bump = new JoystickButton(xbox, 6);
 
     private SequentialCommandGroup fireCannon;
+    private SequentialCommandGroup fireCannon2;
 
     public RobotContainer(Cannon cannon) {
 
@@ -55,6 +56,7 @@ public class RobotContainer {
         lowerCannon = new LowerCannon(linearActuator);
 
         this.fireCannon = new SequentialCommandGroup();
+        this.fireCannon2 = new SequentialCommandGroup();
 
         this.fireCannon.addCommands(
             new InstantCommand(){
@@ -63,7 +65,7 @@ public class RobotContainer {
                     cannon.barrel1();
                 }
             },
-            new WaitCommand(1),
+            new WaitCommand(.1),
             new InstantCommand(){
                 @Override
                 public void initialize() {
@@ -71,6 +73,23 @@ public class RobotContainer {
                 }
             }
         );
+
+        this.fireCannon2.addCommands(
+            new InstantCommand(){
+                @Override
+                public void initialize() {
+                    cannon.barrel2();
+                }
+            },
+            new WaitCommand(.1),
+            new InstantCommand(){
+                @Override
+                public void initialize() {
+                   cannon.barrel2(); 
+                }
+            }
+        );
+
         swerveSubsystem.setDefaultCommand(new SwerveCommand(
             swerveSubsystem,
             () -> -xbox.getRawAxis(OIConstants.kDriverYAxis),
