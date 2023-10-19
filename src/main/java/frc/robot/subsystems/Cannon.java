@@ -41,18 +41,11 @@ public class Cannon extends SubsystemBase{
     }
 
     public void barrel1() {
-        this.sol.set(true);
-        new Thread(() -> {
-            try {
-                Thread.sleep(1000);
-                this.sol.set(false);
-            } catch (Exception e) {
-            }
-        }).start();
+        this.sol.toggle(); // right barrel
     }
     
     public void barrel2() {
-        this.sol2.set(true);
+        this.sol2.set(true); // left barrel
     }
 
 }

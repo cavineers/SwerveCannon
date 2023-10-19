@@ -16,6 +16,7 @@ import frc.robot.subsystems.Cannon;
 import frc.robot.subsystems.LinearActuator;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.Strip;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 
 public class RobotContainer {
@@ -65,9 +66,11 @@ public class RobotContainer {
         buttonB.onTrue(new InstantCommand(){
             @Override
             public void initialize() {
-                if(l_bump.getAsBoolean()&&r_bump.getAsBoolean()){
+               // if(l_bump.getAsBoolean()&&r_bump.getAsBoolean()){
                     cannon.barrel1();
-                }
+                    new WaitCommand(1);
+                    cannon.barrel1();
+                //}
             }
         });
 
