@@ -23,7 +23,7 @@ public class RobotContainer {
    
     private final SwerveDriveSubsystem swerveSubsystem = new SwerveDriveSubsystem();
     private final LinearActuator linearActuator;
-    // private final Cannon cannon;
+    private final Cannon cannon;
     private final Strip strip;
 
     public Command m_balance;
@@ -40,9 +40,9 @@ public class RobotContainer {
     public JoystickButton l_bump = new JoystickButton(xbox, 5);
     public JoystickButton r_bump = new JoystickButton(xbox, 6);
 
-    public RobotContainer() {
+    public RobotContainer(Cannon cannon) {
 
-        // cannon = new Cannon();
+        this.cannon = cannon;
         linearActuator = new LinearActuator();
         strip = new Strip();
 
@@ -62,19 +62,21 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         
-        // buttonB.onTrue(new InstantCommand(){
-        //     @Override
-        //     public void initialize() {
-        //         if(l_bump.getAsBoolean()&&r_bump.getAsBoolean()){
-        //             cannon.toggle();
-        //         }
-        //     }
-        // });
+        buttonB.onTrue(new InstantCommand(){
+            @Override
+            public void initialize() {
+                if(l_bump.getAsBoolean()&&r_bump.getAsBoolean()){
+                    cannon.barrel1();
+                }
+            }
+        });
 
         buttonX.onTrue(new InstantCommand(){
             @Override
             public void initialize() {
-                strip.setStripState(Strip.stripLEDState.OCEANCOLOREDRAINBOW);
+                if(l_bump.getAsBoolean()&&r_bump.getAsBoolean()){
+                    cannon.barrel2();
+                }
             }
         });
 

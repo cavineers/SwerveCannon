@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
 
     //Container
-    m_robotContainer = new RobotContainer();
+    m_robotContainer = new RobotContainer(cannon);
 
   }
 
