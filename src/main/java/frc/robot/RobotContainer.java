@@ -62,14 +62,15 @@ public class RobotContainer {
             new InstantCommand(){
                 @Override
                 public void initialize() {
-                    cannon.barrel1();
+                    cannon.right();
                 }
             },
             new WaitCommand(.1),
             new InstantCommand(){
                 @Override
                 public void initialize() {
-                   cannon.barrel1(); 
+                   cannon.right(); 
+                   cannon.rightCycle();
                 }
             }
         );
@@ -78,17 +79,19 @@ public class RobotContainer {
             new InstantCommand(){
                 @Override
                 public void initialize() {
-                    cannon.barrel2();
+                    cannon.left();
                 }
             },
             new WaitCommand(.1),
             new InstantCommand(){
                 @Override
                 public void initialize() {
-                   cannon.barrel2(); 
+                    cannon.left(); 
+                    cannon.leftCycle();
                 }
             }
-        );
+
+        ); 
 
         swerveSubsystem.setDefaultCommand(new SwerveCommand(
             swerveSubsystem,
@@ -109,7 +112,7 @@ public class RobotContainer {
             @Override
             public void initialize() {
                 if(l_bump.getAsBoolean()&&r_bump.getAsBoolean()){
-                    
+                    fireCannon2.schedule();
                 }
             }
         });

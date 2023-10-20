@@ -33,6 +33,16 @@ public class Cannon extends SubsystemBase{
         compressor = new Compressor(PneumaticsModuleType.REVPH);
     }
 
+    public void rightCycle(){
+        this.power2.set(false);
+        this.power2.set(true);
+    }
+
+    public void leftCycle(){
+        this.power1.set(false);
+        this.power1.set(true);
+    }
+
     public void startPnuematics(){
         compressor.enableHybrid(PnuematicsConstants.kMinPressure, PnuematicsConstants.kMaxPressure);
         this.power1.set(true);
@@ -40,12 +50,12 @@ public class Cannon extends SubsystemBase{
         this.power3.set(true);
     }
 
-    public void barrel1() {
-        this.sol.toggle(); // right barrel
+    public void right() {
+        this.sol.toggle(); // right barrel port 2
     }
     
-    public void barrel2() {
-        this.sol2.set(true); // left barrel
+    public void left() {
+        this.sol2.toggle(); // left barrel port 1
     }
 
 }
