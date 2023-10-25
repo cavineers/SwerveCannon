@@ -19,6 +19,7 @@ import frc.robot.subsystems.LinearActuator;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.Strip;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants.PnuematicsConstants;
 
 
 public class RobotContainer {
@@ -65,7 +66,7 @@ public class RobotContainer {
                     cannon.right();
                 }
             },
-            new WaitCommand(.1),
+            new WaitCommand(PnuematicsConstants.kOpenTime),
             new InstantCommand(){
                 @Override
                 public void initialize() {
@@ -82,7 +83,7 @@ public class RobotContainer {
                     cannon.left();
                 }
             },
-            new WaitCommand(.1),
+            new WaitCommand(PnuematicsConstants.kOpenTime),
             new InstantCommand(){
                 @Override
                 public void initialize() {
@@ -108,7 +109,7 @@ public class RobotContainer {
         
 
 
-        buttonB.onTrue(new InstantCommand(){
+        buttonX.onTrue(new InstantCommand(){
             @Override
             public void initialize() {
                 if(l_bump.getAsBoolean()&&r_bump.getAsBoolean()){
@@ -117,7 +118,7 @@ public class RobotContainer {
             }
         });
 
-        buttonX.onTrue(new InstantCommand(){
+        buttonB.onTrue(new InstantCommand(){
             @Override
             public void initialize() {
                 if(l_bump.getAsBoolean()&&r_bump.getAsBoolean()){

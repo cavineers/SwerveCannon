@@ -24,8 +24,10 @@ public final class Constants {
     }
 
     public static final class PnuematicsConstants {
-        public static final int kMinPressure = 20;
-        public static final int kMaxPressure = 40;
+        public static final int kMinPressure = 90;
+        public static final int kMaxPressure = 100;
+
+        public static final double kOpenTime = .05;
 
         public static final int kAnalogChannel = 0;
 
