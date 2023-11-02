@@ -107,12 +107,10 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         
-
-
         buttonX.onTrue(new InstantCommand(){
             @Override
             public void initialize() {
-                if(l_bump.getAsBoolean()&&r_bump.getAsBoolean()){
+                if(l_bump.getAsBoolean()&&r_bump.getAsBoolean()&&!fireCannon2.isScheduled()){
                     fireCannon2.schedule();
                 }
             }
@@ -121,7 +119,7 @@ public class RobotContainer {
         buttonB.onTrue(new InstantCommand(){
             @Override
             public void initialize() {
-                if(l_bump.getAsBoolean()&&r_bump.getAsBoolean()){
+                if(l_bump.getAsBoolean()&&r_bump.getAsBoolean()&&!fireCannon.isScheduled()){
                     fireCannon.schedule();
                 }
             }
