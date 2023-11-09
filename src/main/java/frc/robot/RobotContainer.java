@@ -11,11 +11,15 @@ import frc.robot.commands.ShootAngle;
 import frc.robot.commands.SwerveCommand;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SelectCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Cannon;
 import frc.robot.subsystems.LinearActuator;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.Strip;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants.PnuematicsConstants;
 
 
 public class RobotContainer {
@@ -23,7 +27,7 @@ public class RobotContainer {
    
     private final SwerveDriveSubsystem swerveSubsystem = new SwerveDriveSubsystem();
     private final LinearActuator linearActuator;
-    // private final Cannon cannon;
+    private final Cannon cannon;
     private final Strip strip;
 
     public Command m_balance;
@@ -40,14 +44,55 @@ public class RobotContainer {
     public JoystickButton l_bump = new JoystickButton(xbox, 5);
     public JoystickButton r_bump = new JoystickButton(xbox, 6);
 
-    public RobotContainer() {
+    private SequentialCommandGroup fireCannon;
+    private SequentialCommandGroup fireCannon2;
 
-        // cannon = new Cannon();
+    public RobotContainer(Cannon cannon) {
+
+        this.cannon = cannon;
         linearActuator = new LinearActuator();
         strip = new Strip();
 
         raiseCannon = new RaiseCannon(linearActuator);
         lowerCannon = new LowerCannon(linearActuator);
+
+        this.fireCannon = new SequentialCommandGroup();
+        this.fireCannon2 = new SequentialCommandGroup();
+
+        this.fireCannon.addCommands(
+            new InstantCommand(){
+                @Override
+                public void initialize() {
+                    cannon.right();
+                }
+            },
+            new WaitCommand(PnuematicsConstants.kOpenTime),
+            new InstantCommand(){
+                @Override
+                public void initialize() {
+                   cannon.right(); 
+                   cannon.rightCycle();
+                }
+            }
+        );
+
+        this.fireCannon2.addCommands(
+            new InstantCommand(){
+                @Override
+                public void initialize() {
+                    cannon.left();
+                }
+            },
+            new WaitCommand(PnuematicsConstants.kOpenTime),
+            new InstantCommand(){
+                @Override
+                public void initialize() {
+                    cannon.left(); 
+                    cannon.leftCycle();
+                }
+            }
+
+        ); 
 
         swerveSubsystem.setDefaultCommand(new SwerveCommand(
             swerveSubsystem,
@@ -62,19 +107,21 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         
-        // buttonB.onTrue(new InstantCommand(){
-        //     @Override
-        //     public void initialize() {
-        //         if(l_bump.getAsBoolean()&&r_bump.getAsBoolean()){
-        //             cannon.toggle();
-        //         }
-        //     }
-        // });
-
         buttonX.onTrue(new InstantCommand(){
             @Override
             public void initialize() {
-                strip.setStripState(Strip.stripLEDState.OCEANCOLOREDRAINBOW);
+                if(l_bump.getAsBoolean()&&r_bump.getAsBoolean()&&!fireCannon2.isScheduled()){
+                    fireCannon2.schedule();
+                }
+            }
+        });
+
+        buttonB.onTrue(new InstantCommand(){
+            @Override
+            public void initialize() {
+                if(l_bump.getAsBoolean()&&r_bump.getAsBoolean()&&!fireCannon.isScheduled()){
+                    fireCannon.schedule();
+                }
             }
         });
 

@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
 
     //Container
-    m_robotContainer = new RobotContainer();
+    m_robotContainer = new RobotContainer(cannon);
 
   }
 
@@ -69,7 +69,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    cannon.startHybrid();
+    cannon.startPnuematics();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
