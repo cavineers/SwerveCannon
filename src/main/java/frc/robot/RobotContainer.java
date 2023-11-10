@@ -1,17 +1,12 @@
 package frc.robot;
 
 import frc.robot.Constants.OIConstants;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.LowerCannon;
 import frc.robot.commands.RaiseCannon;
-import frc.robot.commands.HomeCannon;
-import frc.robot.commands.ShootAngle;
 import frc.robot.commands.SwerveCommand;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SelectCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Cannon;
@@ -30,19 +25,18 @@ public class RobotContainer {
     private final Cannon cannon;
     private final Strip strip;
 
-    public Command m_balance;
     public Command raiseCannon;
     public Command lowerCannon;
     public Command HomeCannon;
     public Command ShootAngle;
 
     public final XboxController xbox = new XboxController(0);
-    public JoystickButton buttonA = new JoystickButton(xbox, 1);
-    public JoystickButton buttonB = new JoystickButton(xbox, 2);
-    public JoystickButton buttonX = new JoystickButton(xbox, 3);
-    public JoystickButton buttonY = new JoystickButton(xbox, 4);
-    public JoystickButton l_bump = new JoystickButton(xbox, 5);
-    public JoystickButton r_bump = new JoystickButton(xbox, 6);
+    private JoystickButton buttonA = new JoystickButton(xbox, 1);
+    private JoystickButton buttonB = new JoystickButton(xbox, 2);
+    private JoystickButton buttonX = new JoystickButton(xbox, 3);
+    private JoystickButton buttonY = new JoystickButton(xbox, 4);
+    private JoystickButton leftBump = new JoystickButton(xbox, 5);
+    private JoystickButton rightBump = new JoystickButton(xbox, 6);
 
     private SequentialCommandGroup fireCannon;
     private SequentialCommandGroup fireCannon2;
@@ -110,7 +104,7 @@ public class RobotContainer {
         buttonX.onTrue(new InstantCommand(){
             @Override
             public void initialize() {
-                if(l_bump.getAsBoolean()&&r_bump.getAsBoolean()&&!fireCannon2.isScheduled()){
+                if(leftBump.getAsBoolean()&&rightBump.getAsBoolean()&&!fireCannon2.isScheduled()){
                     fireCannon2.schedule();
                 }
             }
@@ -119,7 +113,7 @@ public class RobotContainer {
         buttonB.onTrue(new InstantCommand(){
             @Override
             public void initialize() {
-                if(l_bump.getAsBoolean()&&r_bump.getAsBoolean()&&!fireCannon.isScheduled()){
+                if(leftBump.getAsBoolean()&&rightBump.getAsBoolean()&&!fireCannon.isScheduled()){
                     fireCannon.schedule();
                 }
             }

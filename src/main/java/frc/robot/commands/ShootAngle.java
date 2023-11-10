@@ -1,19 +1,16 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.Robot;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.LinearActuator;
 
 public class ShootAngle extends CommandBase {
-    
+
     private double angle;
     private double rotations;
     private boolean isDone = false;
-    private double m_timestamp;
+    private double timestamp;
     private LinearActuator linearActuator;
 
     public ShootAngle(LinearActuator linearActuator) {
@@ -25,7 +22,7 @@ public class ShootAngle extends CommandBase {
          */
 
         angle = SmartDashboard.getNumber("Shooting angle", 0);
-        //rotations = angle 
+        // rotations = angle
         // Insert math here
 
         this.linearActuator = linearActuator;
@@ -41,7 +38,9 @@ public class ShootAngle extends CommandBase {
     @Override
     public void execute() {
 
-        if (linearActuator.getLinearActuatorMotorPosition() >= Constants.LinearActuator.linearActuatorMotorMinRot && linearActuator.getLinearActuatorMotorPosition() <= Constants.LinearActuator.linearActuatorMotorMaxRot) {
+        if (linearActuator.getLinearActuatorMotorPosition() >= Constants.LinearActuator.linearActuatorMotorMinRot
+                && linearActuator
+                        .getLinearActuatorMotorPosition() <= Constants.LinearActuator.linearActuatorMotorMaxRot) {
             // Raises cannon
             if (linearActuator.getLinearActuatorMotorPosition() <= angle) {
                 linearActuator.setLinearActuatorMotorState(LinearActuator.LinearActuatorMotorState.ON);
@@ -56,7 +55,7 @@ public class ShootAngle extends CommandBase {
                 linearActuator.setLinearActuatorMotorState(LinearActuator.LinearActuatorMotorState.OFF);
             }
         }
-    }   
+    }
 
     @Override
     public void end(boolean interrupted) {
@@ -66,7 +65,7 @@ public class ShootAngle extends CommandBase {
     @Override
     public boolean isFinished() {
 
-            this.isDone = true;
+        this.isDone = true;
 
         return this.isDone;
     }
