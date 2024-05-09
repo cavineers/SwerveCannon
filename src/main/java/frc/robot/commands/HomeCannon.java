@@ -1,9 +1,9 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.LinearActuator;
 
-public class HomeCannon extends CommandBase {
+public class HomeCannon extends Command {
 
     private boolean isDone = false;
     private double timestamp;
