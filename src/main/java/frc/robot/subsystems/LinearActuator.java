@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,6 +13,7 @@ public class LinearActuator extends SubsystemBase {
     
     //Initalize Motor
     public CANSparkMax linearActuatorMotor = new CANSparkMax(Constants.LinearActuator.linearActuatorMotor, MotorType.kBrushless);;
+    public DigitalInput limitSwitch = new DigitalInput(0);
 
     //List States
     public enum LinearActuatorMotorState {
@@ -123,6 +125,12 @@ public class LinearActuator extends SubsystemBase {
             }
 
             SmartDashboard.putString("State", "REVERSED");
+
+        }
+
+        if (limitSwitch.get() == true) {
+
+            linearActuatorMotor.getEncoder().setPosition(0);
 
         }
 
