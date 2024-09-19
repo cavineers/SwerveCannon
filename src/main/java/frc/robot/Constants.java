@@ -59,7 +59,7 @@ public final class Constants {
 
         public static final int kFrontLeftTurningCanID = 4;
         public static final int kBackLeftTurningCanID = 2;
-        public static final int kFrontRightTurningCanID = 9;
+        public static final int kFrontRightTurningCanID = 10;
         public static final int kBackRightTurningCanID = 7;
 
         public static final boolean kFrontLeftTurningEncoderReversed = true;
