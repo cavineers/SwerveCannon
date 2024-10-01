@@ -26,11 +26,11 @@ public class Cannon extends SubsystemBase{
 
     public Cannon() {
         this.sol = new Solenoid(PneumaticsModuleType.REVPH, 4);
-        this.sol2 = new Solenoid(PneumaticsModuleType.REVPH, 5);
+        this.sol2 = new Solenoid(PneumaticsModuleType.REVPH, 3);
 
-        this.power1 = new Solenoid(PneumaticsModuleType.REVPH, 1);
-        this.power2 = new Solenoid(PneumaticsModuleType.REVPH, 2);
-        this.power3 = new Solenoid(PneumaticsModuleType.REVPH, 3);
+        this.power1 = new Solenoid(PneumaticsModuleType.REVPH, 0);
+        this.power2 = new Solenoid(PneumaticsModuleType.REVPH, 1);
+        this.power3 = new Solenoid(PneumaticsModuleType.REVPH, 2);
         compressor = new Compressor(PneumaticsModuleType.REVPH);
     }
 
@@ -51,12 +51,12 @@ public class Cannon extends SubsystemBase{
         this.power3.set(true);
     }
 
-    public void right() {
-        this.sol.toggle(); // right barrel port 2
+    public void left() {
+        this.sol.toggle();
     }
     
-    public void left() {
-        this.sol2.toggle(); // left barrel port 1
+    public void right() {
+        this.sol2.toggle();
     }
 
 }
