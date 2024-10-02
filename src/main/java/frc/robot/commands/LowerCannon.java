@@ -30,6 +30,7 @@ public class LowerCannon extends Command {
                 + Constants.LinearActuator.linearActuatorMotorEaseOutThreshold)) {
             linearActuator.setLinearActuatorMotorState(LinearActuator.LinearActuatorMotorState.REVERSED);
         } else {
+            System.out.println("CAN NOT LOWER");            
             linearActuator.setLinearActuatorMotorState(LinearActuator.LinearActuatorMotorState.OFF);
         }
     }

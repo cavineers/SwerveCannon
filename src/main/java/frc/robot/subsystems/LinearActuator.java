@@ -130,7 +130,7 @@ public class LinearActuator extends SubsystemBase {
 
         }
 
-        if (limitSwitch.get() == true) {
+        if (!limitSwitch.get() == true) {
 
             linearActuatorMotor.getEncoder().setPosition(0);
         }
