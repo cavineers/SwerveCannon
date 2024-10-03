@@ -27,7 +27,7 @@ public final class Constants {
         public static final int kMinPressure = 90;
         public static final int kMaxPressure = 100;
 
-        public static final double kOpenTime = .05;
+        public static final double kOpenTime = .1;
 
         public static final int kAnalogChannel = 0;
 

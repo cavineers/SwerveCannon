@@ -81,6 +81,10 @@ public class LinearActuator extends SubsystemBase {
         return this.linearActuatorMotorState;
     }
 
+    public boolean getLimitSwitch() {
+        return !limitSwitch.get();
+    }
+
     public void periodic(){
         
         //ON State
@@ -130,8 +134,7 @@ public class LinearActuator extends SubsystemBase {
 
         }
 
-        if (!limitSwitch.get() == true) {
-
+        if (getLimitSwitch() == true) {
             linearActuatorMotor.getEncoder().setPosition(0);
         }
 
@@ -142,3 +145,4 @@ public class LinearActuator extends SubsystemBase {
     }
 
 }
+ 

@@ -9,14 +9,14 @@ import edu.wpi.first.wpilibj.Compressor;
 
 public class Cannon extends SubsystemBase{
 
-    private Solenoid sol;
-    private Solenoid sol2;
+    private Solenoid sol3;
+    private Solenoid sol4;
 
     private Compressor compressor;
 
+    private Solenoid power0;
     private Solenoid power1;
     private Solenoid power2;
-    private Solenoid power3;
 
     @Override
     public void periodic() {
@@ -25,38 +25,44 @@ public class Cannon extends SubsystemBase{
     }
 
     public Cannon() {
-        this.sol = new Solenoid(PneumaticsModuleType.REVPH, 4);
-        this.sol2 = new Solenoid(PneumaticsModuleType.REVPH, 3);
+        this.sol4 = new Solenoid(PneumaticsModuleType.REVPH, 4); // reset on channel 1
+        this.sol3 = new Solenoid(PneumaticsModuleType.REVPH, 3); // reset on channel 0 after
 
-        this.power1 = new Solenoid(PneumaticsModuleType.REVPH, 0);
-        this.power2 = new Solenoid(PneumaticsModuleType.REVPH, 1);
-        this.power3 = new Solenoid(PneumaticsModuleType.REVPH, 2);
+        this.power0 = new Solenoid(PneumaticsModuleType.REVPH, 0); // enables relay 
+        this.power1 = new Solenoid(PneumaticsModuleType.REVPH, 1); // enables relay
+        this.power2 = new Solenoid(PneumaticsModuleType.REVPH, 2); // enables board
         compressor = new Compressor(PneumaticsModuleType.REVPH);
     }
 
-    public void rightCycle(){
-        this.power2.set(false);
-        this.power2.set(true);
+    public void rightPrimerOff(){ // Resets barrel primer after a solenoid is fired
+        this.power0.set(false);
     }
 
-    public void leftCycle(){
+    public void rightPrimerOn(){ // Resets barrel primer after a solenoid is fired
+        this.power0.set(true);
+    }
+
+    public void leftPrimerOff(){
         this.power1.set(false);
+    }
+
+    public void leftPrimerOn(){
         this.power1.set(true);
     }
 
     public void startPnuematics(){
         compressor.enableHybrid(PnuematicsConstants.kMinPressure, PnuematicsConstants.kMaxPressure);
+        this.power0.set(true);
         this.power1.set(true);
         this.power2.set(true);
-        this.power3.set(true);
     }
 
     public void left() {
-        this.sol.toggle();
+        this.sol4.toggle(); // barrel 1
     }
     
     public void right() {
-        this.sol2.toggle();
+        this.sol3.toggle(); // barrel 2
     }
 
 }

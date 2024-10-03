@@ -2,6 +2,7 @@ package frc.robot;
 
 import frc.robot.Constants.OIConstants;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.HomeCannon;
 import frc.robot.commands.LowerCannon;
 import frc.robot.commands.RaiseCannon;
 import frc.robot.commands.SwerveCommand;
@@ -27,7 +28,7 @@ public class RobotContainer {
 
     public Command raiseCannon;
     public Command lowerCannon;
-    public Command HomeCannon;
+    public Command homeCannon;
     public Command ShootAngle;
 
     public final XboxController xbox = new XboxController(0);
@@ -41,6 +42,11 @@ public class RobotContainer {
     private SequentialCommandGroup fireCannon;
     private SequentialCommandGroup fireCannon2;
 
+    private SequentialCommandGroup resetLeftBarrel;
+    private SequentialCommandGroup resetRightBarrel;
+
+    private boolean shootDebounce;
+
     public RobotContainer(Cannon cannon) {
 
         this.cannon = cannon;
@@ -49,9 +55,43 @@ public class RobotContainer {
 
         raiseCannon = new RaiseCannon(linearActuator);
         lowerCannon = new LowerCannon(linearActuator);
+        homeCannon = new HomeCannon(linearActuator);
 
         this.fireCannon = new SequentialCommandGroup();
         this.fireCannon2 = new SequentialCommandGroup();
+
+        this.resetLeftBarrel = new SequentialCommandGroup();
+        this.resetRightBarrel = new SequentialCommandGroup();
+        
+        this.shootDebounce = false;
+
+        this.resetRightBarrel.addCommands(
+            new InstantCommand(){
+                public void initialize(){
+                    cannon.rightPrimerOff();
+                }
+            },
+            new WaitCommand(0.1),
+            new InstantCommand(){
+                public void initialize(){
+                    cannon.rightPrimerOn();
+                }
+            }
+        );
+
+        this.resetLeftBarrel.addCommands(
+            new InstantCommand(){
+                public void initialize(){
+                    cannon.leftPrimerOff();
+                }
+            },
+            new WaitCommand(0.1),
+            new InstantCommand(){
+                public void initialize(){
+                    cannon.leftPrimerOn();
+                }
+            }
+        );
 
         this.fireCannon.addCommands(
             new InstantCommand(){
@@ -62,12 +102,9 @@ public class RobotContainer {
             },
             new WaitCommand(PnuematicsConstants.kOpenTime),
             new InstantCommand(){
-                @Override
-                public void initialize() {
-                   cannon.right(); 
-                   cannon.rightCycle();
-                }
-            }
+                public void initialize() { cannon.right(); }
+            },
+            this.resetRightBarrel
         );
 
         this.fireCannon2.addCommands(
@@ -79,14 +116,10 @@ public class RobotContainer {
             },
             new WaitCommand(PnuematicsConstants.kOpenTime),
             new InstantCommand(){
-                @Override
-                public void initialize() {
-                    cannon.left(); 
-                    cannon.leftCycle();
-                }
-            }
-
-        ); 
+                public void initialize() { cannon.left(); }
+            },
+            this.resetLeftBarrel
+        );
 
         swerveSubsystem.setDefaultCommand(new SwerveCommand(
             swerveSubsystem,
@@ -104,20 +137,21 @@ public class RobotContainer {
         buttonX.onTrue(new InstantCommand(){
             @Override
             public void initialize() {
-                if(leftBump.getAsBoolean()&&rightBump.getAsBoolean()&&!fireCannon2.isScheduled()){
+                if(leftBump.getAsBoolean() && rightBump.getAsBoolean())
+                {
                     fireCannon2.schedule();
                 }
             }
-        });
+        }).debounce(0.5);
 
         buttonB.onTrue(new InstantCommand(){
             @Override
             public void initialize() {
-                if(leftBump.getAsBoolean()&&rightBump.getAsBoolean()&&!fireCannon.isScheduled()){
+                if(leftBump.getAsBoolean()&&rightBump.getAsBoolean()){
                     fireCannon.schedule();
                 }
             }
-        });
+        }).debounce(0.5);;
 
         buttonY.onTrue(raiseCannon);
         buttonY.onFalse(new InstantCommand() {

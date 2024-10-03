@@ -23,13 +23,13 @@ public class HomeCannon extends Command {
     @Override
     public void execute() {
         // Homes cannon
-        // if (sensor != true) {
-        linearActuator.setLinearActuatorMotorState(LinearActuator.LinearActuatorMotorState.REVERSED);
-        // } else {
-        linearActuator.setLinearActuatorMotorState(LinearActuator.LinearActuatorMotorState.OFF);
-        linearActuator.setLinearActuatorMotorPosition(0.0);
-
-        // }
+        if (linearActuator.getLimitSwitch() != true) {
+            linearActuator.setLinearActuatorMotorState(LinearActuator.LinearActuatorMotorState.REVERSED);
+        } else {
+            linearActuator.setLinearActuatorMotorState(LinearActuator.LinearActuatorMotorState.OFF);
+            linearActuator.setLinearActuatorMotorPosition(0.0);
+            this.isDone = true;
+        }
     }
 
     @Override
