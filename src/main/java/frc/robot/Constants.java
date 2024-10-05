@@ -8,9 +8,9 @@ public final class Constants {
 
     public static final class LinearActuator {
         public static final int linearActuatorMotor = 11;
-        public static final double linearActuatorMotorSpeedUp = 0.5; //TBD
-        public static final double linearActuatorMotorSpeedDown = -0.5; //TBD
-        public static final double linearActuatorMotorMaxRot = 90.0;
+        public static final double linearActuatorMotorSpeedUp = 0.25; //TBD
+        public static final double linearActuatorMotorSpeedDown = -0.25; //TBD
+        public static final double linearActuatorMotorMaxRot = 80.0;
         public static final double linearActuatorMotorMinRot = 0;
         public static final double linearActuatorMotorEaseFactor = 0.02; //Easing Increment added to speed //TBD
         public static final double linearActuatorMotorEaseOutMultiplier = 3; //Higher Value = More responsive; Less smooth
@@ -27,7 +27,7 @@ public final class Constants {
         public static final int kMinPressure = 90;
         public static final int kMaxPressure = 100;
 
-        public static final double kOpenTime = .1;
+        public static final double kOpenTime = .05;
 
         public static final int kAnalogChannel = 0;
 

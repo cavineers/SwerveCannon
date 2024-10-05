@@ -38,6 +38,7 @@ public class RobotContainer {
     private JoystickButton buttonY = new JoystickButton(xbox, 4);
     private JoystickButton leftBump = new JoystickButton(xbox, 5);
     private JoystickButton rightBump = new JoystickButton(xbox, 6);
+    private JoystickButton left_menu = new JoystickButton(xbox, 7);
 
     private SequentialCommandGroup fireCannon;
     private SequentialCommandGroup fireCannon2;
@@ -168,5 +169,9 @@ public class RobotContainer {
                 lowerCannon.cancel();
           }
         });
+
+        left_menu.onTrue(homeCannon); // Home the cannon moving downward
+
+
     }
 }

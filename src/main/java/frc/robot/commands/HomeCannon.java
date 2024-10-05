@@ -25,7 +25,8 @@ public class HomeCannon extends Command {
         // Homes cannon
         if (linearActuator.getLimitSwitch() != true) {
             linearActuator.setLinearActuatorMotorState(LinearActuator.LinearActuatorMotorState.REVERSED);
-        } else {
+        } 
+        else {
             linearActuator.setLinearActuatorMotorState(LinearActuator.LinearActuatorMotorState.OFF);
             linearActuator.setLinearActuatorMotorPosition(0.0);
             this.isDone = true;
@@ -39,9 +40,6 @@ public class HomeCannon extends Command {
 
     @Override
     public boolean isFinished() {
-
-        this.isDone = true;
-
         return this.isDone;
     }
 }

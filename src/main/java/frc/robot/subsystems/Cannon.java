@@ -22,6 +22,8 @@ public class Cannon extends SubsystemBase{
     public void periodic() {
         SmartDashboard.putBoolean("Compressor", compressor.isEnabled());
         SmartDashboard.putNumber("PSI", compressor.getPressure());
+
+       
     }
 
     public Cannon() {
