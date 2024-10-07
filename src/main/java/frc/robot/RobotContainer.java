@@ -101,7 +101,7 @@ public class RobotContainer {
                     cannon.right();
                 }
             },
-            new WaitCommand(PnuematicsConstants.kOpenTime),
+            new WaitCommand(0.075),
             new InstantCommand(){
                 public void initialize() { cannon.right(); }
             },
@@ -115,7 +115,7 @@ public class RobotContainer {
                     cannon.left();
                 }
             },
-            new WaitCommand(PnuematicsConstants.kOpenTime),
+            new WaitCommand(0.075),
             new InstantCommand(){
                 public void initialize() { cannon.left(); }
             },

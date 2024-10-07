@@ -110,10 +110,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         m_odometer.update(getRotation2d(), getPositions());
         SmartDashboard.putNumber("Robot Heading", getHeading());
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
-        SmartDashboard.putNumber("FrontRight", frontRight.getTurningPosition());
-        SmartDashboard.putNumber("FrontLeft", frontLeft.getTurningPosition());
-        SmartDashboard.putNumber("BackLeft", backLeft.getTurningPosition());
-        SmartDashboard.putNumber("BackRight", backRight.getTurningPosition());
+        // SmartDashboard.putNumber("FrontRight", frontRight.getTurningPosition());
+        // SmartDashboard.putNumber("FrontLeft", frontLeft.getTurningPosition());
+        // SmartDashboard.putNumber("BackLeft", backLeft.getTurningPosition());
+        // SmartDashboard.putNumber("BackRight", backRight.getTurningPosition());
 
 
     }

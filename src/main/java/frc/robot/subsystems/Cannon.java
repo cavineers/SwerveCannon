@@ -12,8 +12,9 @@ import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.util.datalog.BooleanLogEntry;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.util.datalog.StringLogEntry;
-
-
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.networktables.GenericEntry;
 
 public class Cannon extends SubsystemBase{
 
@@ -36,6 +37,12 @@ public class Cannon extends SubsystemBase{
     private boolean leftSolenoidStatus;
     private boolean rightSolenoidStatus;
 
+    // Shuffle Board Settings
+    ShuffleboardTab pressureTab;
+    GenericEntry maxPressureEntry;
+    double maxPressureDouble;
+    private int tick;
+
     @Override
     public void periodic() {
         SmartDashboard.putBoolean("Compressor", compressor.isEnabled());
@@ -47,6 +54,26 @@ public class Cannon extends SubsystemBase{
 
         SmartDashboard.putBoolean("Left Barrel Solenoid Status", this.sol4.get()); 
         SmartDashboard.putBoolean("Right Barrel Solenoid Status", this.sol3.get());
+
+        SmartDashboard.putNumber("Max Pressure Setpoint", maxPressureDouble);
+        updateMaxPressure();
+
+        // Disable if above
+        if (compressor.getPressure() > this.maxPressureDouble) {
+            compressor.disable();
+        }
+        else{
+            compressor.enableAnalog(PnuematicsConstants.kMinPressure, PnuematicsConstants.kMaxPressure);
+        }
+        this.tick++;
+
+        if (tick % 100 == 0){
+            this.psiLog.append(this.compressor.getPressure());
+        }
+
+        // Actually open the solenoids
+        this.sol4.set(leftSolenoidStatus); // barrel 1
+        this.sol3.set(rightSolenoidStatus);
     }
 
     public Cannon() {
@@ -69,6 +96,19 @@ public class Cannon extends SubsystemBase{
         // Barrel Status
         this.leftSolenoidStatus = false;
         this.rightSolenoidStatus = false;
+
+        this.pressureTab = Shuffleboard.getTab("Pressure Settings");
+        this.maxPressureEntry = pressureTab.add("Max Pressure", 50).getEntry();
+    }
+
+    private void updateMaxPressure(){
+        if (this.maxPressureEntry.getDouble(0) > 120) return; // guard clause
+
+        if (this.maxPressureEntry.getDouble(0) != this.maxPressureDouble){
+            System.out.println("UPDATING MAX PRESSURE: ");
+            this.maxPressureDouble = this.maxPressureEntry.getDouble(0);
+            System.out.println("UPDATED: " + this.maxPressureDouble);
+        }
     }
 
     public void rightPrimerOff(){ // Resets barrel primer after a solenoid is fired
@@ -92,7 +132,7 @@ public class Cannon extends SubsystemBase{
     }
 
     public void startPnuematics(){
-        compressor.enableHybrid(PnuematicsConstants.kMinPressure, PnuematicsConstants.kMaxPressure);
+        compressor.enableAnalog(PnuematicsConstants.kMinPressure, PnuematicsConstants.kMaxPressure);
         this.power0.set(true);
         this.power1.set(true);
         this.power2.set(true);
@@ -101,17 +141,10 @@ public class Cannon extends SubsystemBase{
     }
 
     public void left() {
-        this.sol4.toggle(); // barrel 1
         this.leftSolenoidStatus = !this.leftSolenoidStatus;
     }
     
     public void right() {
-        this.sol3.toggle(); // barrel 2
         this.rightSolenoidStatus = !this.rightSolenoidStatus;
-    }
-
-    public void insanityCheck()
-    {
-        
     }
 }

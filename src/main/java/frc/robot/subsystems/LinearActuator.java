@@ -104,8 +104,8 @@ public class LinearActuator extends SubsystemBase {
 
 
         //SmartDashboard Displays
-        SmartDashboard.putNumber("linearActuatorRot", getLinearActuatorMotorPosition());
-        SmartDashboard.putNumber("linearActuatorMotorSpeed", getLinearActuatorMotorSpeed());
+        // SmartDashboard.putNumber("linearActuatorRot", getLinearActuatorMotorPosition());
+        // SmartDashboard.putNumber("linearActuatorMotorSpeed", getLinearActuatorMotorSpeed());
 
     }
 
