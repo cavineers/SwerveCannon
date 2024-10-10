@@ -43,10 +43,21 @@ public class Cannon extends SubsystemBase{
     double maxPressureDouble;
     private int tick;
 
+    // Compressor state
+    public enum compressorStateEnum {
+        CHARGING,
+        STANDBY,
+        OFF
+    }
+
+    private boolean automaticCompressorControl;
+
+    private compressorStateEnum compressorState;
+
     @Override
     public void periodic() {
         SmartDashboard.putBoolean("Compressor", compressor.isEnabled());
-        SmartDashboard.putBoolean("Software Compressor Order", compressor.getPressureSwitchValue());
+        SmartDashboard.putBoolean("Compressor State", (compressorState == compressorStateEnum.CHARGING));
         SmartDashboard.putNumber("Tank PSI", compressor.getPressure());
 
         SmartDashboard.putBoolean("Left Barrel Software Command", leftSolenoidStatus);
@@ -58,22 +69,36 @@ public class Cannon extends SubsystemBase{
         SmartDashboard.putNumber("Max Pressure Setpoint", maxPressureDouble);
         updateMaxPressure();
 
-        // Disable if above
-        if (compressor.getPressure() > this.maxPressureDouble) {
-            compressor.disable();
-        }
-        else{
-            compressor.enableAnalog(PnuematicsConstants.kMinPressure, PnuematicsConstants.kMaxPressure);
-        }
-        this.tick++;
-
-        if (tick % 100 == 0){
-            this.psiLog.append(this.compressor.getPressure());
-        }
-
         // Actually open the solenoids
         this.sol4.set(leftSolenoidStatus); // barrel 1
         this.sol3.set(rightSolenoidStatus);
+
+        determineCompressorState();
+
+        switch (this.compressorState) {
+            case CHARGING:
+                compressor.enableAnalog(maxPressureDouble - 1, maxPressureDouble);
+                SmartDashboard.putString("Compressor State Label", "CHARGING");
+                compressorLog.append(true);
+                break;
+            case OFF:
+                SmartDashboard.putString("Compressor State Label", "OFF");
+                compressor.disable();
+                compressorLog.append(false);
+                break;
+            case STANDBY:
+            default:
+                SmartDashboard.putString("Compressor State Label", "STANDBY");
+                compressor.disable();
+                compressorLog.append(false);
+                break;
+        }
+
+        // Don't constantly log PSI (every 100 cycles)
+        if (tick % 100 == 0){
+            this.psiLog.append(this.compressor.getPressure());
+        }
+        this.tick++;
     }
 
     public Cannon() {
@@ -93,12 +118,28 @@ public class Cannon extends SubsystemBase{
         psiLog = new DoubleLogEntry(log, "/cannonLogs/psiLog");
         barrelLog = new StringLogEntry(log, "/cannonLogs/barrelLog");
 
+
+        // Automatic compressor charging on by default
+        this.compressorState = compressorStateEnum.CHARGING;
+        this.automaticCompressorControl = true;
+
         // Barrel Status
         this.leftSolenoidStatus = false;
         this.rightSolenoidStatus = false;
 
         this.pressureTab = Shuffleboard.getTab("Pressure Settings");
         this.maxPressureEntry = pressureTab.add("Max Pressure", 50).getEntry();
+    }
+
+    private void determineCompressorState(){
+        if (compressor.getPressure() > this.maxPressureDouble){
+            this.compressorState = (automaticCompressorControl) ? compressorStateEnum.STANDBY : compressorStateEnum.OFF;        
+        }
+        else{
+            if (compressor.getPressure() < maxPressureDouble - 3){ // PSI Tolerance
+                this.compressorState = compressorStateEnum.CHARGING;
+            }
+        }
     }
 
     private void updateMaxPressure(){
