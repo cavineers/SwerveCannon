@@ -2,6 +2,7 @@ package frc.robot;
 
 import frc.robot.Constants.OIConstants;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.HomeCannon;
 import frc.robot.commands.LowerCannon;
 import frc.robot.commands.RaiseCannon;
@@ -38,7 +39,11 @@ public class RobotContainer {
     private JoystickButton buttonY = new JoystickButton(xbox, 4);
     private JoystickButton leftBump = new JoystickButton(xbox, 5);
     private JoystickButton rightBump = new JoystickButton(xbox, 6);
-    private JoystickButton left_menu = new JoystickButton(xbox, 7);
+    private JoystickButton leftMenu = new JoystickButton(xbox, 7);
+
+    private POVButton povUp = new POVButton(xbox, 0, 0);
+    private POVButton povDown = new POVButton(xbox, 180, 0);
+
 
     private SequentialCommandGroup fireCannon;
     private SequentialCommandGroup fireCannon2;
@@ -169,9 +174,23 @@ public class RobotContainer {
                 lowerCannon.cancel();
           }
         });
+        leftMenu.onTrue(homeCannon); // Home the cannon moving downward
 
-        left_menu.onTrue(homeCannon); // Home the cannon moving downward
+        povUp.onTrue(new InstantCommand() {
+            @Override
+            public void initialize() {
+                cannon.updateMaxPressure(5); // increase max pressure by +5
+            }      
+        });
 
+        povDown.onTrue(new InstantCommand() {
+            @Override
+            public void initialize() {
+                cannon.updateMaxPressure(-5); // decrease max pressure by -5
+            }      
+        });
+
+        
 
     }
 }

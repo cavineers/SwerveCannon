@@ -15,6 +15,7 @@ import edu.wpi.first.util.datalog.StringLogEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.networktables.GenericEntry;
+import frc.lib.SlidingWindowAverage;
 
 public class Cannon extends SubsystemBase{
 
@@ -31,7 +32,11 @@ public class Cannon extends SubsystemBase{
     private DataLog log;
     private BooleanLogEntry compressorLog;
     private DoubleLogEntry psiLog;
+    private DoubleLogEntry psiSetpointLog;
     private StringLogEntry barrelLog;
+
+    SlidingWindowAverage pressureWindowAverage;
+
 
     // Barrel Status
     private boolean leftSolenoidStatus;
@@ -58,7 +63,7 @@ public class Cannon extends SubsystemBase{
     public void periodic() {
         SmartDashboard.putBoolean("Compressor", compressor.isEnabled());
         SmartDashboard.putBoolean("Compressor State", (compressorState == compressorStateEnum.CHARGING));
-        SmartDashboard.putNumber("Tank PSI", compressor.getPressure());
+        SmartDashboard.putNumber("Tank PSI", this.getPressure());
 
         SmartDashboard.putBoolean("Left Barrel Software Command", leftSolenoidStatus);
         SmartDashboard.putBoolean("Right Barrel Software Command", rightSolenoidStatus);
@@ -67,7 +72,7 @@ public class Cannon extends SubsystemBase{
         SmartDashboard.putBoolean("Right Barrel Solenoid Status", this.sol3.get());
 
         SmartDashboard.putNumber("Max Pressure Setpoint", maxPressureDouble);
-        updateMaxPressure();
+        SmartDashboard.putNumber("Windowed Average", this.getPressure());
 
         // Actually open the solenoids
         this.sol4.set(leftSolenoidStatus); // barrel 1
@@ -77,7 +82,7 @@ public class Cannon extends SubsystemBase{
 
         switch (this.compressorState) {
             case CHARGING:
-                compressor.enableAnalog(maxPressureDouble - 1, maxPressureDouble);
+                compressor.enableDigital();
                 SmartDashboard.putString("Compressor State Label", "CHARGING");
                 compressorLog.append(true);
                 break;
@@ -93,10 +98,11 @@ public class Cannon extends SubsystemBase{
                 compressorLog.append(false);
                 break;
         }
-
+        pressureWindowAverage.add(this.compressor.getPressure());
         // Don't constantly log PSI (every 100 cycles)
-        if (tick % 100 == 0){
-            this.psiLog.append(this.compressor.getPressure());
+        if (tick % 50 == 0){
+            this.psiLog.append(this.getPressure());
+            this.psiSetpointLog.append(this.maxPressureDouble);
         }
         this.tick++;
     }
@@ -116,8 +122,10 @@ public class Cannon extends SubsystemBase{
         this.log = DataLogManager.getLog();
         compressorLog = new BooleanLogEntry(log, "/cannonLogs/compressorLog");
         psiLog = new DoubleLogEntry(log, "/cannonLogs/psiLog");
+        psiSetpointLog = new DoubleLogEntry(log, "/cannonLogs/psiSetpointLog");
         barrelLog = new StringLogEntry(log, "/cannonLogs/barrelLog");
 
+        this.pressureWindowAverage = new SlidingWindowAverage();
 
         // Automatic compressor charging on by default
         this.compressorState = compressorStateEnum.CHARGING;
@@ -127,29 +135,36 @@ public class Cannon extends SubsystemBase{
         this.leftSolenoidStatus = false;
         this.rightSolenoidStatus = false;
 
-        this.pressureTab = Shuffleboard.getTab("Pressure Settings");
-        this.maxPressureEntry = pressureTab.add("Max Pressure", 50).getEntry();
+        // this.pressureTab = Shuffleboard.getTab("Pressure Settings");
+        // this.maxPressureEntry = pressureTab.add("Max Pressure", 50).getEntry();
+        this.maxPressureDouble = 45; // Default pressure 45psi
+    }
+
+    public double getPressure(){
+        return pressureWindowAverage.getAverage();
+        // return this.compressor.getPressure();
     }
 
     private void determineCompressorState(){
-        if (compressor.getPressure() > this.maxPressureDouble){
+        if (this.getPressure() > this.maxPressureDouble){
             this.compressorState = (automaticCompressorControl) ? compressorStateEnum.STANDBY : compressorStateEnum.OFF;        
         }
         else{
-            if (compressor.getPressure() < maxPressureDouble - 3){ // PSI Tolerance
+            if (this.getPressure() < maxPressureDouble - 3){ // PSI Tolerance
                 this.compressorState = compressorStateEnum.CHARGING;
             }
         }
     }
 
-    private void updateMaxPressure(){
-        if (this.maxPressureEntry.getDouble(0) > 120) return; // guard clause
+    public void updateMaxPressure(int increment){
+        // if (this.maxPressureEntry.getDouble(0) > 120) return; // guard clause
 
-        if (this.maxPressureEntry.getDouble(0) != this.maxPressureDouble){
-            System.out.println("UPDATING MAX PRESSURE: ");
-            this.maxPressureDouble = this.maxPressureEntry.getDouble(0);
-            System.out.println("UPDATED: " + this.maxPressureDouble);
-        }
+        // if (this.maxPressureEntry.getDouble(0) != this.maxPressureDouble){
+        //     System.out.println("UPDATING MAX PRESSURE: ");
+        //     this.maxPressureDouble = this.maxPressureEntry.getDouble(0);
+        //     System.out.println("UPDATED: " + this.maxPressureDouble);
+        // }
+        maxPressureDouble += increment;
     }
 
     public void rightPrimerOff(){ // Resets barrel primer after a solenoid is fired
