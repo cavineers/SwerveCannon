@@ -137,7 +137,7 @@ public class Cannon extends SubsystemBase{
 
         // this.pressureTab = Shuffleboard.getTab("Pressure Settings");
         // this.maxPressureEntry = pressureTab.add("Max Pressure", 50).getEntry();
-        this.maxPressureDouble = 45; // Default pressure 45psi
+        this.maxPressureDouble = 100; // Default pressure 45psi
     }
 
     public double getPressure(){
