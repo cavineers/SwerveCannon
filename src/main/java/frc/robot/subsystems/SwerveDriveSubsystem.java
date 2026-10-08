@@ -12,7 +12,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.SPI;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import frc.robot.RobotContainer;
 
 
 public class SwerveDriveSubsystem extends SubsystemBase {
@@ -111,10 +110,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         m_odometer.update(getRotation2d(), getPositions());
         SmartDashboard.putNumber("Robot Heading", getHeading());
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
-        SmartDashboard.putNumber("FrontRight", frontRight.getTurningPosition());
-        SmartDashboard.putNumber("FrontLeft", frontLeft.getTurningPosition());
-        SmartDashboard.putNumber("BackLeft", backLeft.getTurningPosition());
-        SmartDashboard.putNumber("BackRight", backRight.getTurningPosition());
+        // SmartDashboard.putNumber("FrontRight", frontRight.getTurningPosition());
+        // SmartDashboard.putNumber("FrontLeft", frontLeft.getTurningPosition());
+        // SmartDashboard.putNumber("BackLeft", backLeft.getTurningPosition());
+        // SmartDashboard.putNumber("BackRight", backRight.getTurningPosition());
 
 
     }

@@ -1,6 +1,6 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import java.lang.Math;
 import java.util.function.Supplier;
@@ -10,7 +10,7 @@ import frc.robot.Constants.OIConstants;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
-public class SwerveCommand extends CommandBase {
+public class SwerveCommand extends Command {
 
     private final SwerveDriveSubsystem swerveSubsystem;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;

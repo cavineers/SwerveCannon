@@ -1,11 +1,9 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Strip;
-import frc.robot.subsystems.Strip.stripLEDState;
 
-public class SetLED extends CommandBase {
+public class SetLED extends Command {
 
     private final Strip strip;
 
