@@ -139,10 +139,22 @@ public class Cannon extends SubsystemBase{
         // this.maxPressureEntry = pressureTab.add("Max Pressure", 50).getEntry();
         this.maxPressureDouble = 100; // Default pressure 45psi
     }
-
+    
     public double getPressure(){
         return pressureWindowAverage.getAverage();
         // return this.compressor.getPressure();
+    }
+
+    public boolean getRightBarrelArmed(){
+        return this.power0.get();
+    }
+
+    public boolean getLeftBarrelArmed(){
+        return this.power1.get();
+    }
+
+    public boolean getCompressorON(){
+        return this.compressor.isEnabled();
     }
 
     private void determineCompressorState(){

@@ -1,6 +1,11 @@
 package frc.robot;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Units.*;
+import edu.wpi.first.units.measure.Distance;
+
+import static edu.wpi.first.units.Units.Meters;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 
@@ -21,6 +26,12 @@ public final class Constants {
 
     public static class PWM {
         public static final int kStripLEDPort = 0;
+
+    }
+
+    public static final class LED {
+        public static final int kLEDPWMPort = 5;
+        public static final Distance kLedSpacing = Meters.of(1 / 120.0);
     }
 
     public static final class PnuematicsConstants {
