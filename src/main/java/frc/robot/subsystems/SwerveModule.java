@@ -1,10 +1,12 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -14,8 +16,8 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 public class SwerveModule {
 
-    private final CANSparkMax driveMotor;
-    private final CANSparkMax turningMotor;
+    private final SparkMax driveMotor;
+    private final SparkMax turningMotor;
 
     private final RelativeEncoder driveEncoder;
     private final RelativeEncoder turningEncoder;
@@ -24,22 +26,43 @@ public class SwerveModule {
 
     public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed) {
 
-        driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
-        turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
+        driveMotor = new SparkMax(driveMotorId, MotorType.kBrushless);
+        turningMotor = new SparkMax(turningMotorId, MotorType.kBrushless);
 
-        driveMotor.setIdleMode(IdleMode.kBrake);
-        turningMotor.setIdleMode(IdleMode.kBrake);
+        SparkMaxConfig driveConfig = new SparkMaxConfig();
+        SparkMaxConfig turningConfig = new SparkMaxConfig();
 
-        driveMotor.setInverted(driveMotorReversed);
-        turningMotor.setInverted(turningMotorReversed);
+        driveConfig
+            .inverted(driveMotorReversed)
+            .idleMode(IdleMode.kBrake);
+    
+        driveConfig.encoder
+            .positionConversionFactor(ModuleConstants.kDriveEncoderRot2Meter)
+            .velocityConversionFactor(ModuleConstants.kDriveEncoderRPM2MeterPerSec);
+
+        turningConfig
+            .inverted(turningMotorReversed)
+            .idleMode(IdleMode.kBrake);
+
+        turningConfig.encoder
+            .positionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad)
+            .velocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
+
+        driveMotor.configure(driveConfig, SparkMax.ResetMode.kResetSafeParameters, SparkMax.PersistMode.kPersistParameters);
+        turningMotor.configure(turningConfig, SparkMax.ResetMode.kResetSafeParameters, SparkMax.PersistMode.kPersistParameters);
+        // driveMotor.setIdleMode(IdleMode.kBrake);
+        // turningMotor.setIdleMode(IdleMode.kBrake);
+
+        // driveMotor.setInverted(driveMotorReversed);
+        // turningMotor.setInverted(turningMotorReversed);
 
         driveEncoder = driveMotor.getEncoder();
         turningEncoder = turningMotor.getEncoder();
 
-        driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveEncoderRot2Meter);
-        driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveEncoderRPM2MeterPerSec);
-        turningEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad);
-        turningEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
+        // driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveEncoderRot2Meter);
+        // driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveEncoderRPM2MeterPerSec);
+        // turningEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad);
+        // turningEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
 
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);

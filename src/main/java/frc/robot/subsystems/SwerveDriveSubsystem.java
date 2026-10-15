@@ -10,7 +10,9 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.SPI;
-import com.kauailabs.navx.frc.AHRS;
+import com.studica.frc.AHRS;
+import com.studica.frc.AHRS.NavXComType;
+//import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 
@@ -39,7 +41,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         DriveConstants.kBackRightDriveEncoderReversed, 
         DriveConstants.kBackRightTurningEncoderReversed);
 
-    private final AHRS gyro = new AHRS(SPI.Port.kMXP); 
+    //private final AHRS gyro = new AHRS(SPI.Port.kMXP); 
+    private final AHRS gyro = new AHRS(NavXComType.kMXP_SPI);
 
     private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
         new Translation2d(DriveConstants.kTrackWidth / 2.0, DriveConstants.kWheelBase / 2.0),

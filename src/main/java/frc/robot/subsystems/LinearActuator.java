@@ -1,8 +1,9 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 import frc.robot.subsystems.LinearActuator.LinearActuatorMotorState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -14,7 +15,7 @@ public class LinearActuator extends SubsystemBase {
 
     
     //Initalize Motor
-    public CANSparkMax linearActuatorMotor;
+    public SparkMax linearActuatorMotor;
     public DigitalInput limitSwitch;
 
     //List States
@@ -30,10 +31,19 @@ public class LinearActuator extends SubsystemBase {
     //Motor Settings
     public LinearActuator() {
         // Motor Setup
-        this.linearActuatorMotor = new CANSparkMax(Constants.LinearActuator.linearActuatorMotor, MotorType.kBrushless);
-        this.linearActuatorMotor.setIdleMode(IdleMode.kBrake);
-        this.linearActuatorMotor.setInverted(false);
-        this.linearActuatorMotor.setSmartCurrentLimit(51);
+        this.linearActuatorMotor = new SparkMax(Constants.LinearActuator.linearActuatorMotor, MotorType.kBrushless);
+        
+        SparkMaxConfig linearActuatorConfig = new SparkMaxConfig();
+        linearActuatorConfig
+            .inverted(false)
+            .idleMode(IdleMode.kBrake)
+            .smartCurrentLimit(51);
+        this.linearActuatorMotor.configure(linearActuatorConfig, SparkMax.ResetMode.kResetSafeParameters, SparkMax.PersistMode.kPersistParameters);
+;
+
+        // this.linearActuatorMotor.setIdleMode(IdleMode.kBrake);
+        // this.linearActuatorMotor.setInverted(false);
+        // this.linearActuatorMotor.setSmartCurrentLimit(51);
 
         // Set state
         this.linearActuatorMotorState = LinearActuatorMotorState.OFF;
